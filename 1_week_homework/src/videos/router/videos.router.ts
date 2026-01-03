@@ -3,6 +3,9 @@ import {httpResponse} from "../../core/types/http_responses";
 import {videosDB} from "../../db/videos.db";
 import {Resolutions, Video} from "../types/videoType";
 import {VideoInputDto} from "../dto/video.Input_dto";
+import {videoInputDtoValidation} from "../validation/video.input_dto.validation";
+import {ValidationError} from "../types/validationError";
+import {createErrorMessages} from "../../core/utils/error.utils";
 
 
 export const videosRouter = Router({})
@@ -19,6 +22,10 @@ videosRouter.get('/:id', (req: express.Request, res: express.Response) => {
 })
 
 videosRouter.post('/', (req: express.Request, res: express.Response) => {
+    const errors: ValidationError[] = videoInputDtoValidation(req.body);
+    if (errors.length) {
+        res.status(httpResponse.bad_request).json(createErrorMessages(errors));
+    }
     const body: VideoInputDto = req.body;
     const createdAtDate = new Date();
     const publicationDate = new Date(createdAtDate);
@@ -36,6 +43,10 @@ videosRouter.post('/', (req: express.Request, res: express.Response) => {
 })
 
 videosRouter.put('/:id', (req: express.Request, res: express.Response) => {
+    const errors: ValidationError[] = videoInputDtoValidation(req.body);
+    if (errors.length) {
+        res.status(httpResponse.bad_request).json(createErrorMessages(errors));
+    }
     const foundVideo = videosDB.data.find(v => v.id === +req.params.id);
     if (!foundVideo)
         return res.sendStatus(httpResponse.not_found)

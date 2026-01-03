@@ -1,0 +1,10 @@
+import {Resolutions} from "../types/videoType";
+
+export type VideoPutDto = {
+    title : string;
+    author: string;
+    availableResolutions: Resolutions[];
+    canBeDownloaded: boolean;
+    minAgeRestriction: number | null;
+    publicationDate: string;
+}

@@ -3,14 +3,26 @@ import {httpResponse} from "../../src/core/types/http_responses";
 import request from "supertest";
 import {VideoInputDto} from "../../src/videos/dto/video.Input_dto";
 import {Resolutions} from "../../src/videos/types/videoType";
+import {VideoPutDto} from "../../src/videos/dto/video.put_dto";
 
 const testVideoData: VideoInputDto = {
     title: 'test_title',
     author: 'test_author',
     availableResolutions: [Resolutions.P144, Resolutions.P1080]
 }
-const testPutData = {
+const testPutData: VideoPutDto = {
     title: "string",
+    author: "string",
+    availableResolutions: [
+        Resolutions.P720
+    ],
+    canBeDownloaded: true,
+    minAgeRestriction: 18,
+    publicationDate: "2026-01-02T23:47:11.521Z"
+}
+
+const testWrongPutData = {
+    title: null,
     author: "string",
     availableResolutions: [
         "P144"
@@ -103,5 +115,45 @@ describe('VIDEOS API', () => {
             id: expect.any(Number),
             createdAt: expect.any(String),
         })
+    });
+    it (`Shouldn't post a video and status 400 because of bad title`, async () => {
+        const postResponse = await request(app)
+            .post('/videos')
+            .send({
+                ...testVideoData,
+                title: null,
+                author: 'test_author5',
+                availableResolutions: [Resolutions.P480, Resolutions.P720]
+            })
+            .expect(httpResponse.bad_request)
+        expect(postResponse.body).toEqual({errorMessages: [{message: expect.any(String), field: expect.any(String)}]})
+    })
+    it (`Shouldn't post a video and status 400 because of bad author`, async () => {
+        const postResponse = await request(app)
+            .post('/videos')
+            .send({
+                ...testVideoData,
+                title: 'title5',
+                author: 'test_author4test_author4test_author4test_author4test_author4test_author4test_author4',
+                availableResolutions: [Resolutions.P480, Resolutions.P720]
+            })
+            .expect(httpResponse.bad_request)
+        expect(postResponse.body).toEqual({errorMessages: [{message: expect.any(String), field: expect.any(String)}]})
+    })
+
+    it (`Shouldn't update a video by id and status 400 because od bad author`, async () => {
+        const postResponse = await request(app)
+            .post('/videos')
+            .send({
+                ...testVideoData,
+                title: 'test_title6',
+                author: 'test_author6',
+                availableResolutions: [Resolutions.P480, Resolutions.P720, Resolutions.P1440]
+            })
+            .expect(httpResponse.created)
+        await request(app)
+            .put(`/videos/${postResponse.body.id}`)
+            .send(testWrongPutData)
+            .expect(httpResponse.bad_request)
     })
 })
