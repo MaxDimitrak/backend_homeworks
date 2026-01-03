@@ -26,7 +26,7 @@ videosRouter.post('/', (req: express.Request, res: express.Response) => {
     const newVideo: Video = {
         id: videosDB.data.length ? videosDB.data[videosDB.data.length - 1].id + 1 : 1,
         canBeDownloaded: false,
-        minAgeRestriction: 0,
+        minAgeRestriction: null,
         createdAt: createdAtDate,
         publicationDate: publicationDate,
         ...body

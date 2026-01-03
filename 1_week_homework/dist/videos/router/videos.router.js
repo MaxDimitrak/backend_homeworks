@@ -19,7 +19,7 @@ exports.videosRouter.post('/', (req, res) => {
     const createdAtDate = new Date();
     const publicationDate = new Date(createdAtDate);
     publicationDate.setDate(publicationDate.getDate() + 1);
-    const newVideo = Object.assign({ id: videos_db_1.videosDB.data.length ? videos_db_1.videosDB.data[videos_db_1.videosDB.data.length - 1].id + 1 : 1, canBeDownloaded: false, minAgeRestriction: 0, createdAt: createdAtDate, publicationDate: publicationDate }, body);
+    const newVideo = Object.assign({ id: videos_db_1.videosDB.data.length ? videos_db_1.videosDB.data[videos_db_1.videosDB.data.length - 1].id + 1 : 1, canBeDownloaded: false, minAgeRestriction: null, createdAt: createdAtDate, publicationDate: publicationDate }, body);
     videos_db_1.videosDB.data.push(newVideo);
     res.status(http_responses_1.httpResponse.created).json(newVideo);
 });
