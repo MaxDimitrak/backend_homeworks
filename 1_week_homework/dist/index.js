@@ -8,3 +8,4 @@ if (process.env.NODE_ENV !== "production") {
         console.log(`Listening on ${PORT}`);
     });
 }
+exports.default = app;
