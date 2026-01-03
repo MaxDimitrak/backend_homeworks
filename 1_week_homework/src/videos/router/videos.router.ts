@@ -1,11 +1,12 @@
 import express, {Router} from "express";
 import {httpResponse} from "../../core/types/http_responses";
 import {videosDB} from "../../db/videos.db";
-import {Resolutions, Video} from "../types/videoType";
+import {Video} from "../types/videoType";
 import {VideoInputDto} from "../dto/video.Input_dto";
 import {videoInputDtoValidation} from "../validation/video.input_dto.validation";
 import {ValidationError} from "../types/validationError";
 import {createErrorMessages} from "../../core/utils/error.utils";
+import {videoPutDtoValidation} from "../validation/video.put_dto.validation";
 
 
 export const videosRouter = Router({})
@@ -43,7 +44,7 @@ videosRouter.post('/', (req: express.Request, res: express.Response) => {
 })
 
 videosRouter.put('/:id', (req: express.Request, res: express.Response) => {
-    const errors: ValidationError[] = videoInputDtoValidation(req.body);
+    const errors: ValidationError[] = videoPutDtoValidation(req.body);
     if (errors.length) {
         res.status(httpResponse.bad_request).json(createErrorMessages(errors));
     }

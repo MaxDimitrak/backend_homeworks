@@ -22,12 +22,12 @@ const testPutData: VideoPutDto = {
 }
 
 const testWrongPutData = {
-    title: null,
+    title: 'string',
     author: "string",
     availableResolutions: [
-        "P144"
+        Resolutions.P144
     ],
-    canBeDownloaded: true,
+    canBeDownloaded: "string",
     minAgeRestriction: 18,
     publicationDate: "2026-01-02T23:47:11.521Z"
 }
@@ -151,9 +151,10 @@ describe('VIDEOS API', () => {
                 availableResolutions: [Resolutions.P480, Resolutions.P720, Resolutions.P1440]
             })
             .expect(httpResponse.created)
-        await request(app)
+        const putResponse = await request(app)
             .put(`/videos/${postResponse.body.id}`)
             .send(testWrongPutData)
             .expect(httpResponse.bad_request)
+        console.log(putResponse.body)
     })
 })

@@ -6,6 +6,7 @@ const http_responses_1 = require("../../core/types/http_responses");
 const videos_db_1 = require("../../db/videos.db");
 const video_input_dto_validation_1 = require("../validation/video.input_dto.validation");
 const error_utils_1 = require("../../core/utils/error.utils");
+const video_put_dto_validation_1 = require("../validation/video.put_dto.validation");
 exports.videosRouter = (0, express_1.Router)({});
 exports.videosRouter.get('/', (req, res) => {
     res.status(http_responses_1.httpResponse.ok).json(videos_db_1.videosDB.data);
@@ -30,7 +31,7 @@ exports.videosRouter.post('/', (req, res) => {
     res.status(http_responses_1.httpResponse.created).json(newVideo);
 });
 exports.videosRouter.put('/:id', (req, res) => {
-    const errors = (0, video_input_dto_validation_1.videoInputDtoValidation)(req.body);
+    const errors = (0, video_put_dto_validation_1.videoPutDtoValidation)(req.body);
     if (errors.length) {
         res.status(http_responses_1.httpResponse.bad_request).json((0, error_utils_1.createErrorMessages)(errors));
     }
