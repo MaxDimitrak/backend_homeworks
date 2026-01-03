@@ -1,14 +1,14 @@
-import express from "express";
+import express, {Express, Request, Response} from "express";
 import {testingRouter} from "./testing/testing.router";
 import {httpResponse} from "./core/types/http_responses";
 import {videosRouter} from "./videos/router/videos.router";
 
 export const createApp = () => {
-    const app = express();
+    const app: Express = express();
 
     app.use(express.json());
-    app.get("/", (req: express.Request, res: express.Response) => {
-        res.status(httpResponse.ok).send("Hello World!");
+    app.get("/", (req: Request, res: Response) => {
+        res.status(httpResponse.ok).send("Videos API is running!");
     })
     app.use('/testing', testingRouter);
     app.use('/videos', videosRouter);

@@ -1,4 +1,4 @@
-import express, {Router} from "express";
+import {Request, Response, Router} from "express";
 import {httpResponse} from "../../core/types/http_responses";
 import {videosDB} from "../../db/videos.db";
 import {Video} from "../types/videoType";
@@ -9,27 +9,27 @@ import {createErrorMessages} from "../../core/utils/error.utils";
 import {videoPutDtoValidation} from "../validation/video.put_dto.validation";
 
 
-export const videosRouter = Router({})
+export const videosRouter: Router = Router({})
 
-videosRouter.get('/', (req, res) => {
+videosRouter.get('/', (req: Request, res) => {
     res.status(httpResponse.ok).json(videosDB.data);
 })
 
-videosRouter.get('/:id', (req: express.Request, res: express.Response) => {
+videosRouter.get('/:id', (req: Request, res: Response) => {
     const foundVideo: Video | undefined = videosDB.data.find(v => v.id === +req.params.id);
     if (!foundVideo)
         return res.sendStatus(httpResponse.not_found)
     res.status(httpResponse.ok).json(foundVideo);
 })
 
-videosRouter.post('/', (req: express.Request, res: express.Response) => {
+videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ValidationError[] = videoInputDtoValidation(req.body);
     if (errors.length) {
         res.status(httpResponse.bad_request).json(createErrorMessages(errors));
     }
     const body: VideoInputDto = req.body;
-    const createdAtDate = new Date();
-    const publicationDate = new Date(createdAtDate);
+    const createdAtDate: Date = new Date();
+    const publicationDate: Date = new Date(createdAtDate);
     publicationDate.setDate(publicationDate.getDate() + 1);
     const newVideo: Video = {
         id: videosDB.data.length ? videosDB.data[videosDB.data.length - 1].id + 1 : 1,
@@ -43,12 +43,12 @@ videosRouter.post('/', (req: express.Request, res: express.Response) => {
     res.status(httpResponse.created).json(newVideo);
 })
 
-videosRouter.put('/:id', (req: express.Request, res: express.Response) => {
+videosRouter.put('/:id', (req: Request, res: Response) => {
     const errors: ValidationError[] = videoPutDtoValidation(req.body);
     if (errors.length) {
         res.status(httpResponse.bad_request).json(createErrorMessages(errors));
     }
-    const foundVideo = videosDB.data.find(v => v.id === +req.params.id);
+    const foundVideo: Video | undefined = videosDB.data.find(v => v.id === +req.params.id);
     if (!foundVideo)
         return res.sendStatus(httpResponse.not_found)
     foundVideo.title = req.body.title;
@@ -60,8 +60,8 @@ videosRouter.put('/:id', (req: express.Request, res: express.Response) => {
     res.sendStatus(httpResponse.no_content)
 })
 
-videosRouter.delete('/:id', (req: express.Request, res: express.Response) => {
-    const foundIndexVideo = videosDB.data.findIndex(v => v.id === +req.params.id);
+videosRouter.delete('/:id', (req: Request, res: Response) => {
+    const foundIndexVideo: number = videosDB.data.findIndex(v => v.id === +req.params.id);
     if (foundIndexVideo === -1)
         return res.sendStatus(httpResponse.not_found)
     videosDB.data.splice(foundIndexVideo, 1);

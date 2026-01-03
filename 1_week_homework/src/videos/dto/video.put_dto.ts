@@ -1,7 +1,7 @@
 import {Resolutions} from "../types/videoType";
 
 export type VideoPutDto = {
-    title : string;
+    title: string;
     author: string;
     availableResolutions: Resolutions[];
     canBeDownloaded: boolean;

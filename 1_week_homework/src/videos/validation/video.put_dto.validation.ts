@@ -36,18 +36,18 @@ export const videoPutDtoValidation = (data: VideoPutDto): ValidationError[] => {
     if (typeof data.canBeDownloaded !== 'boolean') {
         errors.push({message: `CanBeDownloaded must be boolean`, field: 'canBeDownloaded'});
     }
-    if (data.minAgeRestriction !== null){
+    if (data.minAgeRestriction !== null) {
         if (typeof data.minAgeRestriction !== 'number' ||
             data.minAgeRestriction < 1 ||
             data.minAgeRestriction > 18) {
             errors.push({message: 'minAgeRestriction must be a number from 1 to 18', field: 'minAgeRestriction'});
         }
     }
-    const parsedDate = new Date(data.publicationDate);
-    const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
-    if ( typeof data.publicationDate !== 'string' ||
+    const parsedDate: Date = new Date(data.publicationDate);
+    const isoRegex: RegExp = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
+    if (typeof data.publicationDate !== 'string' ||
         !isoRegex.test(data.publicationDate) ||
-        isNaN(parsedDate.getTime())){
+        isNaN(parsedDate.getTime())) {
         errors.push({message: 'publicationDate must be a valid date', field: 'publicationDate'});
     }
 

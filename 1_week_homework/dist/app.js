@@ -12,7 +12,7 @@ const createApp = () => {
     const app = (0, express_1.default)();
     app.use(express_1.default.json());
     app.get("/", (req, res) => {
-        res.status(http_responses_1.httpResponse.ok).send("Hello World!");
+        res.status(http_responses_1.httpResponse.ok).send("Videos API is running!");
     });
     app.use('/testing', testing_router_1.testingRouter);
     app.use('/videos', videos_router_1.videosRouter);

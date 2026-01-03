@@ -1,6 +1,6 @@
 import {Resolutions, Video} from "../videos/types/videoType";
 
-export const videosDB : {data: Video[]} = {
+export const videosDB: { data: Video[] } = {
     data: [
         {
             id: 1,
@@ -20,7 +20,7 @@ export const videosDB : {data: Video[]} = {
             minAgeRestriction: 12,
             createdAt: new Date(),
             publicationDate: new Date(),
-            availableResolutions: [Resolutions.P144,Resolutions.P720, Resolutions.P1080]
+            availableResolutions: [Resolutions.P144, Resolutions.P720, Resolutions.P1080]
         },
         {
             id: 3,
