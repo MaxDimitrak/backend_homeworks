@@ -47,7 +47,7 @@ export const videoPutDtoValidation = (data: VideoPutDto): ValidationError[] => {
     const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
     if ( typeof data.publicationDate !== 'string' ||
         !isoRegex.test(data.publicationDate) ||
-        !isNaN(parsedDate.getTime())){
+        isNaN(parsedDate.getTime())){
         errors.push({message: 'publicationDate must be a valid date', field: 'publicationDate'});
     }
 

@@ -22,14 +22,14 @@ const testPutData: VideoPutDto = {
 }
 
 const testWrongPutData = {
-    title: 'string',
+    title: null,
     author: "string",
     availableResolutions: [
         Resolutions.P144
     ],
     canBeDownloaded: "string",
     minAgeRestriction: 18,
-    publicationDate: "2026-01-02T23:47:11.521Z"
+    publicationDate: "2026-01-06T18:20:59.697Z"
 }
 
 describe('VIDEOS API', () => {
