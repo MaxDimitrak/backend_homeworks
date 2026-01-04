@@ -25,7 +25,7 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ValidationError[] = videoInputDtoValidation(req.body);
     if (errors.length) {
-        res.status(httpResponse.bad_request).json(createErrorMessages(errors));
+        return res.status(httpResponse.bad_request).json(createErrorMessages(errors));
     }
     const body: VideoInputDto = req.body;
     const createdAtDate: Date = new Date();
@@ -45,9 +45,8 @@ videosRouter.post('/', (req: Request, res: Response) => {
 
 videosRouter.put('/:id', (req: Request, res: Response) => {
     const errors: ValidationError[] = videoPutDtoValidation(req.body);
-    if (errors.length) {
-        res.status(httpResponse.bad_request).json(createErrorMessages(errors));
-    }
+    if (errors.length)
+        return res.status(httpResponse.bad_request).json(createErrorMessages(errors));
     const foundVideo: Video | undefined = videosDB.data.find(v => v.id === +req.params.id);
     if (!foundVideo)
         return res.sendStatus(httpResponse.not_found)
