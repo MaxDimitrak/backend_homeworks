@@ -126,7 +126,7 @@ describe('VIDEOS API', () => {
                 availableResolutions: [Resolutions.P480, Resolutions.P720]
             })
             .expect(httpResponse.bad_request)
-        expect(postResponse.body).toEqual({errorMessages: [{message: expect.any(String), field: expect.any(String)}]})
+        expect(postResponse.body).toEqual({errorsMessages: [{message: expect.any(String), field: expect.any(String)}]})
     })
     it (`Shouldn't post a video and status 400 because of bad author`, async () => {
         const postResponse = await request(app)
@@ -138,7 +138,7 @@ describe('VIDEOS API', () => {
                 availableResolutions: [Resolutions.P480, Resolutions.P720]
             })
             .expect(httpResponse.bad_request)
-        expect(postResponse.body).toEqual({errorMessages: [{message: expect.any(String), field: expect.any(String)}]})
+        expect(postResponse.body).toEqual({errorsMessages: [{message: expect.any(String), field: expect.any(String)}]})
     })
 
     it (`Shouldn't update a video by id and status 400 because od bad author`, async () => {
