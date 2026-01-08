@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {getAllHAndler} from "./handlers/get_all.handler";
+import {getAllBlogsHandler} from "./handlers/get_all_blogs.handler";
 import {createBlogHandler} from "./handlers/create_blog.handler";
 import {getBlogByIdHandler} from "./handlers/get_blog_by_id.handler";
 import {isAuthorized} from "../../middlewares/auth.middleware";
@@ -12,7 +12,7 @@ import {blogInputDtoValidation} from "../validation/blog_input_dto.validation.mi
 
 export const blogsRouter: Router = Router({})
 
-blogsRouter.get('/', getAllHAndler);
+blogsRouter.get('/', getAllBlogsHandler);
 blogsRouter.get('/:id', idValidation, inputValidationResult, getBlogByIdHandler)
 blogsRouter.post('/', isAuthorized, blogInputDtoValidation, inputValidationResult, createBlogHandler);
 blogsRouter.put('/:id', isAuthorized, idValidation, blogInputDtoValidation, inputValidationResult, updateBlogByIdHandler);

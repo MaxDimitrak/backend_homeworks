@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.postsRouter = void 0;
+const express_1 = __importDefault(require("express"));
+const get_all_posts_handler_1 = require("./handlers/get_all_posts.handler");
+const get_post_by_id_handler_1 = require("./handlers/get_post_by_id.handler");
+const auth_middleware_1 = require("../../middlewares/auth.middleware");
+const create_post_handler_1 = require("./handlers/create_post.handler");
+const update_post_by_id_handler_1 = require("./handlers/update_post_by_id.handler");
+const delete_post_by_id_handler_1 = require("./handlers/delete_post_by_id.handler");
+const post_input_dto_validation_middleware_1 = require("../validation/post_input_dto.validation.middleware");
+const input_validation_result_middleware_1 = require("../../middlewares/input_validation.result.middleware");
+exports.postsRouter = express_1.default.Router({});
+exports.postsRouter.get('/', get_all_posts_handler_1.getAllPostsHandler);
+exports.postsRouter.get('/:id', get_post_by_id_handler_1.getPostByIdHandler);
+exports.postsRouter.post('/', auth_middleware_1.isAuthorized, post_input_dto_validation_middleware_1.postInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, create_post_handler_1.createPostHandler);
+exports.postsRouter.put('/:id', auth_middleware_1.isAuthorized, post_input_dto_validation_middleware_1.postInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, update_post_by_id_handler_1.updatePostByIdHandler);
+exports.postsRouter.delete('/:id', auth_middleware_1.isAuthorized, delete_post_by_id_handler_1.deletePostByIdHandler);

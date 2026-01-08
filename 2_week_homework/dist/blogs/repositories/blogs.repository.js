@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const init_db_1 = require("../../db/init-db");
 exports.blogsRepository = {
-    getAll() {
+    getAllBlogs() {
         return init_db_1.db.blogs;
     },
     getBlogById(id) {

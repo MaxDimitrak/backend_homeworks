@@ -1,8 +1,9 @@
 import express, {Express} from 'express'
 import {http_response} from "./core/types/http_responses";
-import {blogsRouter} from "./blogs/routes/blogsRouter";
-import {BLOGS_PATH, TESTING_PATH} from "./core/paths/paths";
+import {blogsRouter} from "./blogs/routes/blogs.router";
+import {BLOGS_PATH, POSTS_PATH, TESTING_PATH} from "./core/paths/paths";
 import {testingRouter} from "./testing/testing.router";
+import {postsRouter} from "./posts/routes/posts.router";
 
 export const createApp = () => {
     const app: Express = express();
@@ -11,7 +12,7 @@ export const createApp = () => {
         res.status(http_response.ok).send("Blog_Platform API is running!");
     })
     app.use(BLOGS_PATH, blogsRouter)
-
+    app.use(POSTS_PATH, postsRouter)
     app.use(TESTING_PATH, testingRouter)
     return app;
 }

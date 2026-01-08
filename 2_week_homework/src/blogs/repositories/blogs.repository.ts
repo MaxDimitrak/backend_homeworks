@@ -4,7 +4,7 @@ import {Blog} from "../types/blog";
 
 
 export const blogsRepository = {
-    getAll(): Blog[] {
+    getAllBlogs(): Blog[] {
         return db.blogs
     },
     getBlogById(id: string): Blog | undefined {
@@ -27,7 +27,7 @@ export const blogsRepository = {
     deleteBlogById(index: number): void {
         db.blogs.splice(index, 1);
     },
-    findBlogIndex(id: string){
+    findBlogIndex(id: string) {
         return db.blogs.findIndex(blog => blog.id === id);
     }
 }
