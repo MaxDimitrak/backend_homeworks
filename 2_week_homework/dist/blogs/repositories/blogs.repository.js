@@ -20,7 +20,10 @@ exports.blogsRepository = {
         foundBlog.description = updateBlogInput.description;
         foundBlog.websiteUrl = updateBlogInput.websiteUrl;
     },
-    deleteBlogById(id) {
-        init_db_1.db.blogs.filter(b => b.id !== id);
+    deleteBlogById(index) {
+        init_db_1.db.blogs.splice(index, 1);
+    },
+    findBlogIndex(id) {
+        return init_db_1.db.blogs.findIndex(blog => blog.id === id);
     }
 };

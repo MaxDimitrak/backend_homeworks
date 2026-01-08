@@ -98,6 +98,8 @@ describe('testing blogs page', (): void => {
             .delete(`/blogs/${postResponse.body.id}`)
             .set('Authorization', `Basic ${credentials}`)
             .expect(http_response.no_content);
+        await request(app).get(`/blogs/${postResponse.body.id}`).expect(http_response.not_found);
+
     })
     it(`Should create a blog and don't delete the created blog plus return unauthorized status code`, async (): Promise<void> => {
         const postResponse = await request(app)
@@ -125,6 +127,5 @@ describe('testing blogs page', (): void => {
                 websiteUrl: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             })
             .expect(http_response.bad_request);
-        console.log(postResponse.body);
     })
 })

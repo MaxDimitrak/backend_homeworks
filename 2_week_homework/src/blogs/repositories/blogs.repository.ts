@@ -24,7 +24,10 @@ export const blogsRepository = {
         foundBlog.description = updateBlogInput.description;
         foundBlog.websiteUrl = updateBlogInput.websiteUrl;
     },
-    deleteBlogById(id: string): void {
-        db.blogs.filter(b => b.id !== id);
+    deleteBlogById(index: number): void {
+        db.blogs.splice(index, 1);
+    },
+    findBlogIndex(id: string){
+        return db.blogs.findIndex(blog => blog.id === id);
     }
 }
