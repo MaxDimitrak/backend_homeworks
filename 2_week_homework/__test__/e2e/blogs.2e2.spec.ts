@@ -3,9 +3,10 @@ import {createApp} from "../../src/app";
 import {Express} from "express";
 import {http_response} from "../../src/core/types/http_responses";
 import {BlogInputDto} from "../../src/blogs/dto/blog.input_dto";
+import {runDB} from "../../src/db/mongo.db";
 
 
-describe('testing blogs page', (): void => {
+describe('testing blogs page',  (): void => {
     const app: Express = createApp();
     const credentials: string = Buffer.from('admin:qwerty').toString('base64');
 
@@ -27,6 +28,7 @@ describe('testing blogs page', (): void => {
     }
 
     beforeAll(async (): Promise<void> => {
+        await runDB();
         await request(app).delete('/testing/all-data').expect(http_response.no_content)
     })
 
@@ -40,10 +42,10 @@ describe('testing blogs page', (): void => {
             })
             .expect(http_response.created);
         const getByIdResponse = await request(app)
-            .get(`/blogs/${postResponse.body.id}`).expect(http_response.ok);
+            .get(`/blogs/${postResponse.body._id}`).expect(http_response.ok);
         expect(getByIdResponse.body).toEqual({
                 ...postResponse.body,
-                id: expect.any(String),
+                _id: expect.any(String),
             }
         )
     })
@@ -70,7 +72,7 @@ describe('testing blogs page', (): void => {
             .send(testUpdateBlogData)
             .expect(http_response.unauthorized);
     })
-    it(`Should update a blog and return unauthorized status code`, async (): Promise<void> => {
+    it(`Should update a blog and return no content`, async (): Promise<void> => {
         const postResponse = await request(app)
             .post('/blogs')
             .set('Authorization', `Basic ${credentials}`)
@@ -80,7 +82,7 @@ describe('testing blogs page', (): void => {
             })
             .expect(http_response.created);
         await request(app)
-            .put(`/blogs/${postResponse.body.id}`)
+            .put(`/blogs/${postResponse.body._id}`)
             .set('Authorization', `Basic ${credentials}`)
             .send(testUpdateBlogData)
             .expect(http_response.no_content);
@@ -95,10 +97,10 @@ describe('testing blogs page', (): void => {
             })
             .expect(http_response.created);
         await request(app)
-            .delete(`/blogs/${postResponse.body.id}`)
+            .delete(`/blogs/${postResponse.body._id}`)
             .set('Authorization', `Basic ${credentials}`)
             .expect(http_response.no_content);
-        await request(app).get(`/blogs/${postResponse.body.id}`).expect(http_response.not_found);
+        await request(app).get(`/blogs/${postResponse.body._id}`).expect(http_response.not_found);
 
     })
     it(`Should create a blog and don't delete the created blog plus return unauthorized status code`, async (): Promise<void> => {
@@ -115,7 +117,7 @@ describe('testing blogs page', (): void => {
             .expect(http_response.unauthorized);
     })
     it(`Shouldn't return blog by id because of incorrect id`, async (): Promise<void> => {
-        await request(app).get('/blogs/ss').expect(http_response.bad_request);
+        await request(app).get(`/blogs/['try', 'to', 'hack', 'you']`).expect(http_response.bad_request);
     })
     it(`Shouldn't create blog by id because of incorrect data`, async (): Promise<void> => {
         const postResponse = await request(app)

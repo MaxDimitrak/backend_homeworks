@@ -14,11 +14,11 @@ const blogs_repository_1 = require("../../repositories/blogs.repository");
 const http_responses_1 = require("../../../core/types/http_responses");
 const getBlogByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const foundBlog = blogs_repository_1.blogsRepository.getBlogById(id);
-    if (!foundBlog) {
-        res.status(http_responses_1.http_response.not_found).send("Not found blog");
+    const foundedBlog = yield blogs_repository_1.blogsRepository.getBlogById(id);
+    if (!foundedBlog) {
+        res.sendStatus(http_responses_1.http_response.not_found);
         return;
     }
-    res.status(http_responses_1.http_response.ok).send(foundBlog);
+    res.status(http_responses_1.http_response.ok).send(foundedBlog);
 });
 exports.getBlogByIdHandler = getBlogByIdHandler;

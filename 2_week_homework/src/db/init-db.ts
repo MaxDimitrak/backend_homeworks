@@ -1,27 +1,6 @@
-import {Blog} from "../blogs/types/blog";
 import {Post} from "../posts/types/post";
 
 export const db = {
-    blogs: <Blog[]>[
-        {
-            id: '1',
-            name: 'Blog 1',
-            description: 'Blog Description 1',
-            websiteUrl: 'https://www.test.com/blog1',
-        },
-        {
-            id: '2',
-            name: 'Blog 2',
-            description: 'Blog Description 2',
-            websiteUrl: 'https://www.test.com/blog2',
-        },
-        {
-            id: '3',
-            name: 'Blog 3',
-            description: 'Blog Description 3',
-            websiteUrl: 'https://www.test.com/blog3',
-        },
-    ],
     posts: <Post[]>[
         {
             id: "1",

@@ -1,33 +1,44 @@
-import {db} from "../../db/init-db";
 import {BlogInputDto} from "../dto/blog.input_dto";
 import {Blog} from "../types/blog";
+import {blogCollection} from "../../db/mongo.db";
+import {DeleteResult, InsertOneResult, ObjectId, WithId} from "mongodb";
 
 
 export const blogsRepository = {
-    getAllBlogs(): Blog[] {
-        return db.blogs
+    async getAllBlogs(): Promise<WithId<Blog>[]> {
+        return await blogCollection.find().toArray()
     },
-    getBlogById(id: string): Blog | undefined {
-        return db.blogs.find(b => b.id === id)
+    async getBlogById(id: string): Promise<WithId<Blog> | null> {
+        return await blogCollection.findOne({_id: new ObjectId(id)})
     },
-    createBlog(createBlogInput: BlogInputDto): Blog {
+    async createBlog(createBlogInput: BlogInputDto): Promise<WithId<Blog>> {
         const newBlog: Blog = {
             ...createBlogInput,
-            id: db.blogs.length ? String(db.blogs[db.blogs.length - 1].id + 1) : '1',
+            createdAt: new Date(),
+            isMembership: false,
+        };
+        const insertedBlog: InsertOneResult = await blogCollection.insertOne(newBlog)
+        return {...newBlog, _id: insertedBlog.insertedId};
+    },
+    async updateBlogById(id: string, updateBlogInput: BlogInputDto): Promise<WithId<Blog> | null> {
+        return await blogCollection.findOneAndUpdate(
+            {_id: new ObjectId(id)},
+            {
+                $set:
+                    {
+                        name: updateBlogInput.name,
+                        description: updateBlogInput.description,
+                        websiteUrl: updateBlogInput.websiteUrl,
+                    }
+            },
+            {returnDocument: 'after'}
+        );
+    },
+    async deleteBlogById(id: string): Promise<void> {
+        const deletedBlog: DeleteResult = await blogCollection.deleteOne({_id: new ObjectId(id)});
+        if (!deletedBlog.deletedCount) {
+            throw new Error("Blog not found.");
         }
-        db.blogs.push(newBlog)
-        return newBlog;
+        return;
     },
-    updateBlogById(id: string, updateBlogInput: BlogInputDto): void | undefined {
-        const foundBlog: Blog = db.blogs.find(b => b.id === id) as Blog;
-        foundBlog.name = updateBlogInput.name;
-        foundBlog.description = updateBlogInput.description;
-        foundBlog.websiteUrl = updateBlogInput.websiteUrl;
-    },
-    deleteBlogById(index: number): void {
-        db.blogs.splice(index, 1);
-    },
-    findBlogIndex(id: string) {
-        return db.blogs.findIndex(blog => blog.id === id);
-    }
 }
