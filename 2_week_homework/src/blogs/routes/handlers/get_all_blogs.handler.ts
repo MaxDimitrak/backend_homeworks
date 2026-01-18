@@ -8,6 +8,7 @@ import {Blog} from "../../types/blog";
 export const getAllBlogsHandler = async (req: Request, res: Response): Promise<void> => {
     if (!blogsRepository) {
         console.log('db not connected');
+        return;
     }
     const data: WithId<Blog>[] = await blogsRepository.getAllBlogs();
     res.status(http_response.ok).send(data);

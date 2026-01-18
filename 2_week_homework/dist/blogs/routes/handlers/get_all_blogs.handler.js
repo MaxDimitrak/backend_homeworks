@@ -15,6 +15,7 @@ const blogs_repository_1 = require("../../repositories/blogs.repository");
 const getAllBlogsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!blogs_repository_1.blogsRepository) {
         console.log('db not connected');
+        return;
     }
     const data = yield blogs_repository_1.blogsRepository.getAllBlogs();
     res.status(http_responses_1.http_response.ok).send(data);
