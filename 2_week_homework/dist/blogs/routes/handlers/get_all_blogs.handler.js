@@ -12,8 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllBlogsHandler = void 0;
 const http_responses_1 = require("../../../core/types/http_responses");
 const blogs_repository_1 = require("../../repositories/blogs.repository");
+const blogMapper_handler_1 = require("./blogMapper.handler");
 const getAllBlogsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield blogs_repository_1.blogsRepository.getAllBlogs();
-    res.status(http_responses_1.http_response.ok).send(data);
+    const viewModel = data.map(blogMapper_handler_1.blogMapper);
+    res.status(http_responses_1.http_response.ok).send(viewModel);
 });
 exports.getAllBlogsHandler = getAllBlogsHandler;

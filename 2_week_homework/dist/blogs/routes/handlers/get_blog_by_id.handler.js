@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBlogByIdHandler = void 0;
 const blogs_repository_1 = require("../../repositories/blogs.repository");
 const http_responses_1 = require("../../../core/types/http_responses");
+const blogMapper_handler_1 = require("./blogMapper.handler");
 const getBlogByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const foundedBlog = yield blogs_repository_1.blogsRepository.getBlogById(id);
@@ -19,6 +20,6 @@ const getBlogByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.sendStatus(http_responses_1.http_response.not_found);
         return;
     }
-    res.status(http_responses_1.http_response.ok).send(foundedBlog);
+    res.status(http_responses_1.http_response.ok).send((0, blogMapper_handler_1.blogMapper)(foundedBlog));
 });
 exports.getBlogByIdHandler = getBlogByIdHandler;

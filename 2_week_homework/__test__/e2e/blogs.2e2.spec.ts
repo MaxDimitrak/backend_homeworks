@@ -42,10 +42,11 @@ describe('testing blogs page',  (): void => {
             })
             .expect(http_response.created);
         const getByIdResponse = await request(app)
-            .get(`/blogs/${postResponse.body._id}`).expect(http_response.ok);
+            .get(`/blogs/${postResponse.body.id}`).expect(http_response.ok);
+        console.log(postResponse.body);
         expect(getByIdResponse.body).toEqual({
                 ...postResponse.body,
-                _id: expect.any(String),
+                id: expect.any(String),
             }
         )
     })
@@ -82,7 +83,7 @@ describe('testing blogs page',  (): void => {
             })
             .expect(http_response.created);
         await request(app)
-            .put(`/blogs/${postResponse.body._id}`)
+            .put(`/blogs/${postResponse.body.id}`)
             .set('Authorization', `Basic ${credentials}`)
             .send(testUpdateBlogData)
             .expect(http_response.no_content);
@@ -97,10 +98,10 @@ describe('testing blogs page',  (): void => {
             })
             .expect(http_response.created);
         await request(app)
-            .delete(`/blogs/${postResponse.body._id}`)
+            .delete(`/blogs/${postResponse.body.id}`)
             .set('Authorization', `Basic ${credentials}`)
             .expect(http_response.no_content);
-        await request(app).get(`/blogs/${postResponse.body._id}`).expect(http_response.not_found);
+        await request(app).get(`/blogs/${postResponse.body.id}`).expect(http_response.not_found);
 
     })
     it(`Should create a blog and don't delete the created blog plus return unauthorized status code`, async (): Promise<void> => {

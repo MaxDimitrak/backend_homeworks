@@ -61,7 +61,6 @@ function runDB() {
             const db = exports.client.db(settings_1.DATABASE_NAME);
             exports.blogCollection = db.collection(BLOG_COLLECTION_NAME);
             yield db.command({ ping: 1 });
-            console.log("Database Connected");
         }
         catch (err) {
             console.log(`Database wasn't connected to mongoDB: ${err}`);

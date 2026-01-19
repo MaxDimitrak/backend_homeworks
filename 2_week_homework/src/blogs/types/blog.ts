@@ -1,4 +1,13 @@
-export type Blog = {
+export type BlogViewModel = {
+    id: string;
+    name: string;
+    description: string;
+    websiteUrl: string;
+    createdAt: Date;
+    isMembership: boolean;
+}
+
+export type BlogBDType = {
     name: string;
     description: string;
     websiteUrl: string;
