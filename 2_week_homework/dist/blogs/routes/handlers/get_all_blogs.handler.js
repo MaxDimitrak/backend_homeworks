@@ -12,8 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllBlogsHandler = void 0;
 const http_responses_1 = require("../../../core/types/http_responses");
 const blogs_repository_1 = require("../../repositories/blogs.repository");
+const mongo_db_1 = require("../../../db/mongo.db");
 const getAllBlogsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!blogs_repository_1.blogsRepository) {
+    if (!mongo_db_1.blogCollection) {
         console.log('db not connected');
         return;
     }

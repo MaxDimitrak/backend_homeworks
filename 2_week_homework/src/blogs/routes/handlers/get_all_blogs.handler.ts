@@ -3,10 +3,11 @@ import {http_response} from "../../../core/types/http_responses";
 import {blogsRepository} from "../../repositories/blogs.repository";
 import {WithId} from "mongodb";
 import {Blog} from "../../types/blog";
+import {blogCollection} from "../../../db/mongo.db";
 
 
 export const getAllBlogsHandler = async (req: Request, res: Response): Promise<void> => {
-    if (!blogsRepository) {
+    if (!blogCollection) {
         console.log('db not connected');
         return;
     }
