@@ -35,11 +35,8 @@ export const blogsRepository = {
             {returnDocument: 'after'}
         );
     },
-    async deleteBlogById(id: string): Promise<void> {
+    async deleteBlogById(id: string): Promise<boolean> {
         const deletedBlog: DeleteResult = await blogCollection.deleteOne({_id: new ObjectId(id)});
-        if (!deletedBlog.deletedCount) {
-            throw new Error("Blog not found.");
-        }
-        return;
+        return deletedBlog.deletedCount === 1;
     },
 }

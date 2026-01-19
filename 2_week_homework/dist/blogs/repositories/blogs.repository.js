@@ -45,10 +45,7 @@ exports.blogsRepository = {
     deleteBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const deletedBlog = yield mongo_db_1.blogCollection.deleteOne({ _id: new mongodb_1.ObjectId(id) });
-            if (!deletedBlog.deletedCount) {
-                throw new Error("Blog not found.");
-            }
-            return;
+            return deletedBlog.deletedCount === 1;
         });
     },
 };

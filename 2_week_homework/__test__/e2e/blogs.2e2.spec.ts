@@ -131,4 +131,18 @@ describe('testing blogs page',  (): void => {
             })
             .expect(http_response.bad_request);
     })
+    it(`PUT, DELETE, GET -> "/blogs/:id": should return error if :id from uri param not found; status 404;`, async (): Promise<void> => {
+        const postResponse = await request(app)
+            .post('/blogs')
+            .set('Authorization', `Basic ${credentials}`)
+            .send({
+                ...testInputBlogData,
+                name: 'Test 5',
+            })
+            .expect(http_response.created);
+        await request(app)
+            .delete(`/blogs/63189b06003380064c4293be`)
+            .set('Authorization', `Basic ${credentials}`)
+            .expect(http_response.not_found);
+    })
 })

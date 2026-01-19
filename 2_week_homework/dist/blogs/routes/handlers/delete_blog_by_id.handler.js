@@ -14,7 +14,10 @@ const http_responses_1 = require("../../../core/types/http_responses");
 const blogs_repository_1 = require("../../repositories/blogs.repository");
 const deleteBlogByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    yield blogs_repository_1.blogsRepository.deleteBlogById(id);
+    const isDeleted = yield blogs_repository_1.blogsRepository.deleteBlogById(id);
+    if (!isDeleted) {
+        res.sendStatus(http_responses_1.http_response.not_found);
+    }
     res.sendStatus(http_responses_1.http_response.no_content);
 });
 exports.deleteBlogByIdHandler = deleteBlogByIdHandler;
