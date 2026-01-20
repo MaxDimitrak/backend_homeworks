@@ -1,35 +1,42 @@
-import {Post} from "../types/post";
-import {db} from "../../db/init-db";
+import {PostDBType} from "../types/post";
 import {PostInputDto} from "../dto/post.input_dto";
+import {postCollection} from "../../db/mongo.db";
+import {InsertOneResult, ObjectId, WithId} from "mongodb";
 
 
 export const postsRepository = {
-    getAllPosts(): Post[] {
-        return db.posts
+    async getAllPosts(): Promise<WithId<PostDBType>[]> {
+        return await postCollection.find().toArray();
     },
-    getPostById(id: string): Post | undefined {
-        return db.posts.find(p => p.id === id)
+    async getPostById(id: string): Promise<WithId<PostDBType> | null> {
+        return await postCollection.findOne({_id: new ObjectId(id)});
     },
-    createPost(createPostInput: PostInputDto): Post {
-        const newPost: Post = {
+    async createPost(createPostInput: PostInputDto): Promise<WithId<PostDBType>> {
+        const newPost: PostDBType = {
             ...createPostInput,
-            id: db.posts.length ? String(db.posts[db.posts.length - 1].id + 1) : '1',
             blogName: 'asterix',
+            createdAt: new Date(),
         }
-        db.posts.push(newPost)
-        return newPost;
+        const insertedPost: InsertOneResult = await postCollection.insertOne(newPost);
+        return {...newPost, _id: insertedPost.insertedId};
     },
-    updatePostById(id: string, updatePostInput: PostInputDto): void | undefined {
-        const foundPost: Post = db.posts.find(p => p.id === id) as Post;
-        foundPost.title = updatePostInput.title;
-        foundPost.shortDescription = updatePostInput.shortDescription;
-        foundPost.content = updatePostInput.content;
-        foundPost.blogId = updatePostInput.blogId;
+    async updatePostById(id: string, updatePostInput: PostInputDto): Promise<WithId<PostDBType> | null> {
+        return await postCollection.findOneAndUpdate(
+            {_id: new ObjectId(id)},
+            {
+                $set:
+                    {
+                        title: updatePostInput.title,
+                        shortDescription: updatePostInput.shortDescription,
+                        content: updatePostInput.content,
+                        blogId: updatePostInput.blogId,
+                    }
+            },
+            {returnDocument: 'after'}
+        )
     },
-    deletePostById(index: number): void {
-        db.posts.splice(index, 1);
+    async deletePostById(id: string): Promise<boolean> {
+        const deletedPost = await postCollection.deleteOne({_id: new ObjectId(id)});
+        return deletedPost.deletedCount === 1
     },
-    findPostIndex(id: string) {
-        return db.posts.findIndex(p => p.id === id);
-    }
 }

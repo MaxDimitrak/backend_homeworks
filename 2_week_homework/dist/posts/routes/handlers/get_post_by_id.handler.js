@@ -12,13 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPostByIdHandler = void 0;
 const http_responses_1 = require("../../../core/types/http_responses");
 const posts_repository_1 = require("../../repositories/posts.repository");
+const postMapper_handler_1 = require("./postMapper.handler");
 const getPostByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const foundPost = posts_repository_1.postsRepository.getPostById(id);
-    if (!foundPost) {
-        res.status(http_responses_1.http_response.not_found).send("Not found blog");
+    const foundedPost = yield posts_repository_1.postsRepository.getPostById(id);
+    if (!foundedPost) {
+        res.sendStatus(http_responses_1.http_response.not_found);
         return;
     }
-    res.status(http_responses_1.http_response.ok).send(foundPost);
+    res.status(http_responses_1.http_response.ok).send((0, postMapper_handler_1.postMapper)(foundedPost));
 });
 exports.getPostByIdHandler = getPostByIdHandler;

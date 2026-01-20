@@ -3,6 +3,7 @@ import {createApp} from "../../src/app";
 import request from "supertest";
 import {http_response} from "../../src/core/types/http_responses";
 import {PostInputDto} from "../../src/posts/dto/post.input_dto";
+import {runDB} from "../../src/db/mongo.db";
 
 
 describe('testing posts page', () => {
@@ -18,7 +19,8 @@ describe('testing posts page', () => {
 
 
     beforeAll(async () => {
-        await request(app).delete('/testing/all-data').expect(http_response.no_content)
+        await request(app).delete('/testing/all-data').expect(http_response.no_content);
+        await runDB();
     })
 
     it('should get all posts', async () => {
@@ -73,6 +75,7 @@ describe('testing posts page', () => {
             blogId: '1 updated',
             id: expect.any(String),
             blogName: expect.any(String),
+            createdAt: expect.any(String),
         })
     })
     it('should delete a post and return not found', async () => {

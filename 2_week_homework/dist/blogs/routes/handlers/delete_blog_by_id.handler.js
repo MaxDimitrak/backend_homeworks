@@ -17,6 +17,7 @@ const deleteBlogByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const isDeleted = yield blogs_repository_1.blogsRepository.deleteBlogById(id);
     if (!isDeleted) {
         res.sendStatus(http_responses_1.http_response.not_found);
+        return;
     }
     res.sendStatus(http_responses_1.http_response.no_content);
 });

@@ -8,6 +8,7 @@ export const deleteBlogByIdHandler =async  (req: Request, res: Response): Promis
     const isDeleted: boolean = await blogsRepository.deleteBlogById(id);
     if (!isDeleted) {
         res.sendStatus(http_response.not_found);
+        return;
     }
     res.sendStatus(http_response.no_content);
 }

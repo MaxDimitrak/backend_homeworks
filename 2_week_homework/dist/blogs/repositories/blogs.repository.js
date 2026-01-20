@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const mongo_db_1 = require("../../db/mongo.db");
 const mongodb_1 = require("mongodb");
-const blogMapper_handler_1 = require("../routes/handlers/blogMapper.handler");
 exports.blogsRepository = {
     getAllBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -28,7 +27,7 @@ exports.blogsRepository = {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = Object.assign(Object.assign({}, createBlogInput), { createdAt: new Date(), isMembership: false });
             const insertedBlog = yield mongo_db_1.blogCollection.insertOne(newBlog);
-            return (0, blogMapper_handler_1.blogMapper)(Object.assign(Object.assign({}, newBlog), { _id: insertedBlog.insertedId }));
+            return Object.assign(Object.assign({}, newBlog), { _id: insertedBlog.insertedId });
         });
     },
     updateBlogById(id, updateBlogInput) {

@@ -1,16 +1,24 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePostByIdHandler = void 0;
 const http_responses_1 = require("../../../core/types/http_responses");
 const posts_repository_1 = require("../../repositories/posts.repository");
-const deletePostByIdHandler = (req, res) => {
+const deletePostByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const foundIndex = posts_repository_1.postsRepository.findPostIndex(id);
-    if (foundIndex === -1) {
-        res.status(http_responses_1.http_response.not_found).send("No blog found.");
+    const deletedPost = yield posts_repository_1.postsRepository.deletePostById(id);
+    if (!deletedPost) {
+        res.sendStatus(http_responses_1.http_response.not_found);
         return;
     }
-    posts_repository_1.postsRepository.deletePostById(foundIndex);
     res.sendStatus(http_responses_1.http_response.no_content);
-};
+});
 exports.deletePostByIdHandler = deletePostByIdHandler;

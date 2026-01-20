@@ -42,13 +42,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blogCollection = exports.client = void 0;
+exports.postCollection = exports.blogCollection = exports.client = void 0;
 exports.runDB = runDB;
 const mongodb_1 = require("mongodb");
 const dotenv = __importStar(require("dotenv"));
 const settings_1 = require("../core/settings/settings");
 dotenv.config();
 const BLOG_COLLECTION_NAME = "blogs";
+const POST_COLLECTION_NAME = "posts";
 const mongoURL = process.env.MONGODB_URL;
 if (!mongoURL) {
     throw new Error("MongoDB URL is required");
@@ -60,6 +61,7 @@ function runDB() {
             yield exports.client.connect();
             const db = exports.client.db(settings_1.DATABASE_NAME);
             exports.blogCollection = db.collection(BLOG_COLLECTION_NAME);
+            exports.postCollection = db.collection(POST_COLLECTION_NAME);
             yield db.command({ ping: 1 });
         }
         catch (err) {
