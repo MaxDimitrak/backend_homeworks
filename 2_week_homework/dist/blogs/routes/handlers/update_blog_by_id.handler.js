@@ -17,7 +17,7 @@ const updateBlogByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const body = req.body;
     const updatedBlog = yield blogs_repository_1.blogsRepository.updateBlogById(id, body);
     if (!updatedBlog) {
-        throw new Error('Blog not found.');
+        res.sendStatus(http_responses_1.http_response.not_found);
     }
     res.sendStatus(http_responses_1.http_response.no_content);
 });

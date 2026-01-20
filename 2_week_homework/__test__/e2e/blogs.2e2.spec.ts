@@ -133,13 +133,10 @@ describe('testing blogs page',  (): void => {
     })
     it(`PUT, DELETE, GET -> "/blogs/:id": should return error if :id from uri param not found; status 404;`, async (): Promise<void> => {
         const postResponse = await request(app)
-            .post('/blogs')
+            .put('/blogs/63189b06003380064c4293be')
             .set('Authorization', `Basic ${credentials}`)
-            .send({
-                ...testInputBlogData,
-                name: 'Test 5',
-            })
-            .expect(http_response.created);
+            .send({name:"new blog",websiteUrl:"https://someurl.com","description":"description"})
+            .expect(http_response.not_found);
         await request(app)
             .delete(`/blogs/63189b06003380064c4293be`)
             .set('Authorization', `Basic ${credentials}`)

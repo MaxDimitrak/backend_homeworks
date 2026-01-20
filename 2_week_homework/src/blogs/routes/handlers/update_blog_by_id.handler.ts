@@ -10,7 +10,7 @@ export const updateBlogByIdHandler = async (req: Request, res: Response): Promis
     const body: BlogInputDto = req.body;
     const updatedBlog: WithId<BlogBDType> | null = await blogsRepository.updateBlogById(id, body);
     if (!updatedBlog) {
-        throw new Error('Blog not found.');
+        res.sendStatus(http_response.not_found);
     }
     res.sendStatus(http_response.no_content)
 }
