@@ -55,13 +55,13 @@ if (!mongoURL) {
     throw new Error("MongoDB URL is required");
 }
 exports.client = new mongodb_1.MongoClient(mongoURL);
+const db = exports.client.db(settings_1.DATABASE_NAME);
+exports.blogCollection = db.collection(BLOG_COLLECTION_NAME);
+exports.postCollection = db.collection(POST_COLLECTION_NAME);
 function runDB() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield exports.client.connect();
-            const db = exports.client.db(settings_1.DATABASE_NAME);
-            exports.blogCollection = db.collection(BLOG_COLLECTION_NAME);
-            exports.postCollection = db.collection(POST_COLLECTION_NAME);
             yield db.command({ ping: 1 });
         }
         catch (err) {

@@ -9,14 +9,14 @@ import {runDB} from "./db/mongo.db";
 export const createApp = () => {
     const app: Express = express();
     app.use(express.json());
-    app.use(async (req, res, next) => {
-        try{
-            await runDB()
-            next()
-        }catch(err){
-            res.status(500).send("Internal Server Error");
-        }
-    })
+    // app.use(async (req, res, next) => {
+    //     try{
+    //         await runDB()
+    //         next()
+    //     }catch(err){
+    //         res.status(500).send("Internal Server Error");
+    //     }
+    // })
     app.get('/', (req, res) => {
         res.status(http_response.ok).send("Blog_Platform API is running!");
     })
