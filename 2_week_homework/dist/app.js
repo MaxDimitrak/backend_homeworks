@@ -13,14 +13,6 @@ const posts_router_1 = require("./posts/routes/posts.router");
 const createApp = () => {
     const app = (0, express_1.default)();
     app.use(express_1.default.json());
-    // app.use(async (req, res, next) => {
-    //     try{
-    //         await runDB()
-    //         next()
-    //     }catch(err){
-    //         res.status(500).send("Internal Server Error");
-    //     }
-    // })
     app.get('/', (req, res) => {
         res.status(http_responses_1.http_response.ok).send("Blog_Platform API is running!");
     });

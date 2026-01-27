@@ -9,17 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePostByIdHandler = void 0;
-const http_responses_1 = require("../../../core/types/http_responses");
-const posts_repository_1 = require("../../repositories/posts.repository");
-const updatePostByIdHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const body = req.body;
-    const updatedPost = yield posts_repository_1.postsRepository.updatePostById(id, body);
-    if (!updatedPost) {
-        res.sendStatus(http_responses_1.http_response.not_found);
-        return;
-    }
-    res.sendStatus(http_responses_1.http_response.no_content);
-});
 exports.updatePostByIdHandler = updatePostByIdHandler;
+const http_responses_1 = require("../../../core/types/http_responses");
+const errors_handler_1 = require("../../../core/errors/errors.handler");
+const posts_service_1 = require("../../application/posts.service");
+function updatePostByIdHandler(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const id = req.params.id;
+            const body = req.body;
+            const updatedPost = yield posts_service_1.postsService.updatePostById(id, body);
+            if (!updatedPost) {
+                res.sendStatus(http_responses_1.http_response.not_found);
+                return;
+            }
+            res.sendStatus(http_responses_1.http_response.no_content);
+        }
+        catch (err) {
+            (0, errors_handler_1.errorHandler)(err, res);
+        }
+    });
+}

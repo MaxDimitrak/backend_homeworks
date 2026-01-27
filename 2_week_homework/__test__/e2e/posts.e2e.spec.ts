@@ -2,15 +2,15 @@ import {Express} from "express";
 import {createApp} from "../../src/app";
 import request from "supertest";
 import {http_response} from "../../src/core/types/http_responses";
-import {PostInputDto} from "../../src/posts/dto/post.input_dto";
 import {runDB} from "../../src/db/mongo.db";
+import {PostCreateDtoInput} from "../../src/posts/routes/input/post-create.dto-input";
 
 
 describe('testing posts page', () => {
     const app: Express = createApp();
     const credentials: string = Buffer.from('admin:qwerty').toString('base64');
 
-    const testPostInputData: PostInputDto = {
+    const testPostInputData: PostCreateDtoInput = {
         title: 'test',
         shortDescription: 'short description test',
         content: 'content test',

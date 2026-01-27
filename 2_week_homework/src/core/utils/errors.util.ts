@@ -1,7 +1,12 @@
-import {ErrorValidation} from "../types/validationError";
+import {ErrorsFields, ErrorValidationTypeOutput} from "../types/error-validation.dto";
 
-export const createErrorMessages = (
-    errors: ErrorValidation[]
-): { errorsMessages: ErrorValidation[] } => {
-    return {errorsMessages: errors};
+export function createErrorMessages(
+    errors: ErrorsFields[]
+): ErrorValidationTypeOutput{
+    return {
+        errorsMessages: errors.map(error => ({
+            message: error.message,
+            field: error.field
+        })),
+    }
 }

@@ -14,7 +14,7 @@ const http_responses_1 = require("../../../core/types/http_responses");
 const posts_repository_1 = require("../../repositories/posts.repository");
 const postMapper_handler_1 = require("./postMapper.handler");
 const getAllPostsHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield posts_repository_1.postsRepository.getAllPosts();
+    const data = yield posts_repository_1.postsRepository.getManyPosts();
     res.status(http_responses_1.http_response.ok).send(data.map(postMapper_handler_1.postMapper));
 });
 exports.getAllPostsHandler = getAllPostsHandler;

@@ -1,17 +1,55 @@
-import {PostDBType} from "../types/post";
-import {PostInputDto} from "../dto/post.input_dto";
 import {postCollection} from "../../db/mongo.db";
 import {InsertOneResult, ObjectId, WithId} from "mongodb";
+import {PostDBType} from "../domain/post";
+import {PostCreateDtoInput} from "../routes/input/post-create.dto-input";
+import {PostQueryDtoInput} from "../routes/input/post-query-dto.input";
 
 
 export const postsRepository = {
-    async getAllPosts(): Promise<WithId<PostDBType>[]> {
-        return await postCollection.find().toArray();
+    async getManyPosts(
+        query: PostQueryDtoInput,
+    ): Promise<{ items: WithId<PostDBType>[], totalCount: number }> {
+        const {
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection,
+        }: PostQueryDtoInput = query;
+        const skip: number = (pageNumber - 1) * pageSize;
+        const items: WithId<PostDBType>[] = await postCollection
+            .find()
+            .sort({[sortBy]: sortDirection})
+            .skip(skip)
+            .toArray();
+
+        const totalCount: number = await postCollection.countDocuments();
+        return {items, totalCount};
     },
     async getPostById(id: string): Promise<WithId<PostDBType> | null> {
         return await postCollection.findOne({_id: new ObjectId(id)});
     },
-    async createPost(createPostInput: PostInputDto): Promise<WithId<PostDBType>> {
+
+    async getPostsByBlogId(
+        blogId: string,
+        query: PostQueryDtoInput,
+    ): Promise<{ items: WithId<PostDBType>[], totalCount: number }> {
+        const {
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection,
+        }: PostQueryDtoInput = query;
+
+        const skip: number = (pageNumber - 1) * pageSize;
+        const totalCount: number = await postCollection.countDocuments();
+        const items: WithId<PostDBType>[] = await postCollection
+            .find({blogId: blogId})
+            .sort({[sortBy]: sortDirection})
+            .skip(skip)
+            .toArray();
+        return {items, totalCount};
+    },
+    async createPost(createPostInput: PostCreateDtoInput): Promise<WithId<PostDBType>> {
         const newPost: PostDBType = {
             ...createPostInput,
             blogName: 'asterix',
@@ -20,7 +58,7 @@ export const postsRepository = {
         const insertedPost: InsertOneResult = await postCollection.insertOne(newPost);
         return {...newPost, _id: insertedPost.insertedId};
     },
-    async updatePostById(id: string, updatePostInput: PostInputDto): Promise<WithId<PostDBType> | null> {
+    async updatePostById(id: string, updatePostInput: PostCreateDtoInput): Promise<WithId<PostDBType> | null> {
         return await postCollection.findOneAndUpdate(
             {_id: new ObjectId(id)},
             {

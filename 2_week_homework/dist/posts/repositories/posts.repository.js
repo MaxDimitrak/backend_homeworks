@@ -13,14 +13,35 @@ exports.postsRepository = void 0;
 const mongo_db_1 = require("../../db/mongo.db");
 const mongodb_1 = require("mongodb");
 exports.postsRepository = {
-    getAllPosts() {
+    getManyPosts(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield mongo_db_1.postCollection.find().toArray();
+            const { pageNumber, pageSize, sortBy, sortDirection, } = query;
+            const skip = (pageNumber - 1) * pageSize;
+            const items = yield mongo_db_1.postCollection
+                .find()
+                .sort({ [sortBy]: sortDirection })
+                .skip(skip)
+                .toArray();
+            const totalCount = yield mongo_db_1.postCollection.countDocuments();
+            return { items, totalCount };
         });
     },
     getPostById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield mongo_db_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+        });
+    },
+    getPostsByBlogId(blogId, query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { pageNumber, pageSize, sortBy, sortDirection, } = query;
+            const skip = (pageNumber - 1) * pageSize;
+            const totalCount = yield mongo_db_1.postCollection.countDocuments();
+            const items = yield mongo_db_1.postCollection
+                .find({ blogId: blogId })
+                .sort({ [sortBy]: sortDirection })
+                .skip(skip)
+                .toArray();
+            return { items, totalCount };
         });
     },
     createPost(createPostInput) {

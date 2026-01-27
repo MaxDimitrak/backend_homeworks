@@ -13,12 +13,25 @@ exports.blogsRepository = void 0;
 const mongo_db_1 = require("../../db/mongo.db");
 const mongodb_1 = require("mongodb");
 exports.blogsRepository = {
-    getAllBlogs() {
+    getManyBlogs(queryDto) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield mongo_db_1.blogCollection.find().toArray();
+            const { searchNameTerm, sortBy, sortDirection, pageNumber, pageSize, } = queryDto;
+            const filter = {};
+            if (searchNameTerm) {
+                filter.name = { $regex: searchNameTerm, $options: 'i' };
+            }
+            const totalCount = yield mongo_db_1.blogCollection.countDocuments();
+            const skip = (pageNumber - 1) * pageSize;
+            const items = yield mongo_db_1.blogCollection
+                .find(filter)
+                .sort({ [sortBy]: sortDirection })
+                .skip(skip)
+                .limit(pageSize)
+                .toArray();
+            return { items, totalCount };
         });
     },
-    getBlogById(id) {
+    getBlogByIdOrFail(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield mongo_db_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
         });

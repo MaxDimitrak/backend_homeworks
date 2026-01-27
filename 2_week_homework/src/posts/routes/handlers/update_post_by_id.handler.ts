@@ -1,17 +1,26 @@
 import {Request, Response} from 'express';
 import {http_response} from "../../../core/types/http_responses";
-import {PostInputDto} from "../../dto/post.input_dto";
-import {postsRepository} from "../../repositories/posts.repository";
 import {WithId} from "mongodb";
-import {PostDBType} from "../../types/post";
+import {PostDBType} from "../../domain/post";
+import {PostCreateDtoInput} from "../input/post-create.dto-input";
+import {errorHandler} from "../../../core/errors/errors.handler";
+import {postsService} from "../../application/posts.service";
 
-export const updatePostByIdHandler = async (req: Request, res: Response): Promise<void> => {
-    const id: string = req.params.id;
-    const body: PostInputDto = req.body;
-    const updatedPost: WithId<PostDBType> | null = await postsRepository.updatePostById(id, body);
-    if (!updatedPost) {
-        res.sendStatus(http_response.not_found);
-        return;
+
+export async function updatePostByIdHandler (
+    req: Request,
+    res: Response): Promise<void>{
+    try{
+        const id: string = req.params.id;
+        const body: PostCreateDtoInput = req.body;
+        const updatedPost: WithId<PostDBType> | null = await postsService.updatePostById(id, body);
+        if (!updatedPost) {
+            res.sendStatus(http_response.not_found);
+            return;
+        }
+        res.sendStatus(http_response.no_content)
+    }catch(err){
+        errorHandler(err, res);
     }
-    res.sendStatus(http_response.no_content)
+
 }

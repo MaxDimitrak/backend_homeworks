@@ -63,6 +63,7 @@ function runDB() {
         try {
             yield exports.client.connect();
             yield db.command({ ping: 1 });
+            console.log("Database Connected!");
         }
         catch (err) {
             console.log(`Database wasn't connected to mongoDB: ${err}`);

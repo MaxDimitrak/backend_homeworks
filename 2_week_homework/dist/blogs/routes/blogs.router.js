@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRouter = void 0;
 const express_1 = require("express");
-const get_all_blogs_handler_1 = require("./handlers/get_all_blogs.handler");
+const get_many_blogs_handler_1 = require("./handlers/get_many_blogs.handler");
 const create_blog_handler_1 = require("./handlers/create_blog.handler");
 const get_blog_by_id_handler_1 = require("./handlers/get_blog_by_id.handler");
 const auth_middleware_1 = require("../../middlewares/auth.middleware");
@@ -10,10 +10,13 @@ const update_blog_by_id_handler_1 = require("./handlers/update_blog_by_id.handle
 const delete_blog_by_id_handler_1 = require("./handlers/delete_blog_by_id.handler");
 const params_id_validation_middleware_1 = require("../../middlewares/params_id.validation.middleware");
 const input_validation_result_middleware_1 = require("../../middlewares/input_validation.result.middleware");
-const blog_input_dto_validation_middleware_1 = require("../validation/blog_input_dto.validation.middleware");
+const blog_input_dto_validation_middleware_1 = require("./validation/blog_input_dto.validation.middleware");
+const query_pagination_ana_sorting_validation_middleware_1 = require("../../middlewares/query-pagination-ana-sorting.validation-middleware");
+const blog_sort_fields_1 = require("./input/blog-sort-fields");
 exports.blogsRouter = (0, express_1.Router)({});
-exports.blogsRouter.get('/', get_all_blogs_handler_1.getAllBlogsHandler);
+exports.blogsRouter.get('/', (0, query_pagination_ana_sorting_validation_middleware_1.paginationAnaSortingValidation)(blog_sort_fields_1.BlogSortFields), input_validation_result_middleware_1.inputValidationResult, get_many_blogs_handler_1.getManyBlogsHandler);
 exports.blogsRouter.get('/:id', params_id_validation_middleware_1.idValidation, input_validation_result_middleware_1.inputValidationResult, get_blog_by_id_handler_1.getBlogByIdHandler);
+exports.blogsRouter.get('/:id/posts', params_id_validation_middleware_1.idValidation, input_validation_result_middleware_1.inputValidationResult, input_validation_result_middleware_1.inputValidationResult);
 exports.blogsRouter.post('/', auth_middleware_1.isAuthorized, blog_input_dto_validation_middleware_1.blogInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, create_blog_handler_1.createBlogHandler);
 exports.blogsRouter.put('/:id', auth_middleware_1.isAuthorized, params_id_validation_middleware_1.idValidation, blog_input_dto_validation_middleware_1.blogInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, update_blog_by_id_handler_1.updateBlogByIdHandler);
 exports.blogsRouter.delete('/:id', auth_middleware_1.isAuthorized, params_id_validation_middleware_1.idValidation, input_validation_result_middleware_1.inputValidationResult, delete_blog_by_id_handler_1.deleteBlogByIdHandler);

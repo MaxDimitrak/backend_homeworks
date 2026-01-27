@@ -2,26 +2,26 @@ import request from "supertest";
 import {createApp} from "../../src/app";
 import {Express} from "express";
 import {http_response} from "../../src/core/types/http_responses";
-import {BlogInputDto} from "../../src/blogs/dto/blog.input_dto";
 import {runDB} from "../../src/db/mongo.db";
+import {BlogCreateDtoInput} from "../../src/blogs/routes/input/blog-create-dto.input";
 
 
 describe('testing blogs page',  (): void => {
     const app: Express = createApp();
     const credentials: string = Buffer.from('admin:qwerty').toString('base64');
 
-    const testInputBlogData: BlogInputDto = {
+    const testInputBlogData: BlogCreateDtoInput = {
         name: 'Test',
         description: 'Description Test',
         websiteUrl: 'https://test1.pom/',
     }
-    const testUpdateBlogData = {
+    const testUpdateBlogData: BlogCreateDtoInput = {
         name: "Update Test",
         description: "Update Description",
         websiteUrl: "https://dvwBb57sDN.s4SuPpmGXpPxb8wkA1hdUFnO1Owf9i95j0r9ACNUCxtCMjDeK5RZb2t7O75crt5S7r_M-Y.99UXz0BW98"
     }
 
-    const testWrongBlogData = {
+    const testWrongBlogData: BlogCreateDtoInput = {
         name: '',
         description: 'Description Test',
         websiteUrl: 'https://test1.pom/',
@@ -30,6 +30,16 @@ describe('testing blogs page',  (): void => {
     beforeAll(async (): Promise<void> => {
         await runDB();
         await request(app).delete('/testing/all-data').expect(http_response.no_content)
+    })
+    it(`Should create a blog`, async (): Promise<void> => {
+        const postResponse = await request(app)
+            .post('/blogs')
+            .set('Authorization', `Basic ${credentials}`)
+            .send({
+                ...testInputBlogData,
+                name: 'Test 1',
+            })
+            .expect(http_response.created);
     })
 
     it(`Should create a blog and return the created blog`, async (): Promise<void> => {
@@ -43,7 +53,6 @@ describe('testing blogs page',  (): void => {
             .expect(http_response.created);
         const getByIdResponse = await request(app)
             .get(`/blogs/${postResponse.body.id}`).expect(http_response.ok);
-        console.log(postResponse.body);
         expect(getByIdResponse.body).toEqual({
                 ...postResponse.body,
                 id: expect.any(String),
