@@ -16,6 +16,7 @@ exports.postsRepository = {
     getManyPosts(query) {
         return __awaiter(this, void 0, void 0, function* () {
             const { pageNumber, pageSize, sortBy, sortDirection, } = query;
+            console.log(`Sorting by ${sortBy} in ${sortDirection} mode`);
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.postCollection
                 .find()

@@ -16,7 +16,6 @@ exports.paginationAndSortingByDefault = {
 };
 function paginationAnaSortingValidation(sortFieldEnum) {
     const allowedSortFields = Object.values(sortFieldEnum);
-    console.log(allowedSortFields);
     return [
         (0, express_validator_1.query)('pageNumber')
             .default(DEFAULT_PAGE_NUMBER)

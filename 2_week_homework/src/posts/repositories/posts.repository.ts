@@ -9,12 +9,14 @@ export const postsRepository = {
     async getManyPosts(
         query: PostQueryDtoInput,
     ): Promise<{ items: WithId<PostDBType>[], totalCount: number }> {
+
         const {
             pageNumber,
             pageSize,
             sortBy,
             sortDirection,
         }: PostQueryDtoInput = query;
+        console.log(`Sorting by ${sortBy} in ${sortDirection} mode`);
         const skip: number = (pageNumber - 1) * pageSize;
         const items: WithId<PostDBType>[] = await postCollection
             .find()

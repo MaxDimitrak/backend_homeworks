@@ -15,7 +15,6 @@ export const paginationAndSortingByDefault = {
 
 export function paginationAnaSortingValidation<T extends string>(sortFieldEnum: Record<string, T>): ValidationChain[] {
     const allowedSortFields: T[] = Object.values(sortFieldEnum);
-    console.log(allowedSortFields);
     return [
         query('pageNumber')
             .default(DEFAULT_PAGE_NUMBER)
