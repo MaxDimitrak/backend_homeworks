@@ -13,6 +13,7 @@ import {BlogSortFields} from "./input/blog-sort-fields";
 import {postForExactBlogInputDtoValidation} from "./validation/post_for_exact_blog_input_dto.validation.middleware";
 import {createPostForExactBlogHandler} from "./handlers/create_post_for_exact_blog.handler";
 import {blogIdValidation} from "./validation/blog-id.validation.middleware";
+import {getPostsByBlogIdHandler} from "../../posts/routes/handlers/get_posts_by_blog_id.handler";
 
 
 export const blogsRouter: Router = Router({})
@@ -29,10 +30,11 @@ blogsRouter.get('/:id',
     getBlogByIdHandler
 );
 
-blogsRouter.get('/:id/posts',
-    idValidation,
+blogsRouter.get('/:blogId/posts',
+    blogIdValidation,
     inputValidationResult,
-    inputValidationResult
+    inputValidationResult,
+    getPostsByBlogIdHandler
 );
 
 blogsRouter.post('/:blogId/posts',
