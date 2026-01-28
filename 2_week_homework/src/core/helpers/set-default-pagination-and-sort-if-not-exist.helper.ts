@@ -3,11 +3,12 @@ import {paginationAndSortingByDefault} from "../../middlewares/query-pagination-
 
 
 export function setDefaultPaginationAndSortIfNotExist<P = string>(
-    query: Partial<PaginationAndSorting<P>>
+    query: any
 ): PaginationAndSorting<P>{
     return {
-        ...paginationAndSortingByDefault,
-        ...query,
+        pageNumber: query.pageNumber ? Number(query.pageNumber) : paginationAndSortingByDefault.pageNumber,
+        pageSize: query.pageSize ? Number(query.pageSize) : paginationAndSortingByDefault.pageSize,
         sortBy: (query.sortBy ?? paginationAndSortingByDefault.sortBy) as P,
+        sortDirection: query.sortDirection ?? paginationAndSortingByDefault.sortDirection,
     }
 }

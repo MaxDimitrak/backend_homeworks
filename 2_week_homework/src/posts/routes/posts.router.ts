@@ -10,6 +10,7 @@ import {inputValidationResult} from "../../middlewares/input_validation.result.m
 import {paginationAnaSortingValidation} from "../../middlewares/query-pagination-ana-sorting.validation-middleware";
 import {PostSortFields} from "./input/post-sort-fields";
 import {idValidation} from "../../middlewares/params_id.validation.middleware";
+import {BlogSortFields} from "../../blogs/routes/input/blog-sort-fields";
 
 
 export const postsRouter: Router = express.Router({});

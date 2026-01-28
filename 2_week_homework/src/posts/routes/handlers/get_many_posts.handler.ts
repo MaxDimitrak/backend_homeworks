@@ -17,11 +17,7 @@ export async function getManyPostsHandler (
     res: Response
 ): Promise<void>{
     try{
-        const sanitizedQuery: PostQueryDtoInput = matchedData<PostQueryDtoInput>(req, {
-            locations: ['query'],
-            includeOptionals: true,
-        })
-        const query: PostQueryDtoInput = setDefaultPaginationAndSortIfNotExist(sanitizedQuery)
+        const query: PostQueryDtoInput = setDefaultPaginationAndSortIfNotExist(req.query);
         const data: {items: WithId<PostDBType>[],totalCount: number} = await postsService.getManyPosts(query);
         const viewModel: PostDataPaginatedOutput = mapToPostListPaginatedUtil(
             data.items,{

@@ -16,7 +16,6 @@ exports.postsRepository = {
     getManyPosts(query) {
         return __awaiter(this, void 0, void 0, function* () {
             const { pageNumber, pageSize, sortBy, sortDirection, } = query;
-            console.log(`Sorting by ${sortBy} in ${sortDirection} mode`);
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.postCollection
                 .find()
@@ -24,7 +23,6 @@ exports.postsRepository = {
                 .skip(skip)
                 .limit(pageSize)
                 .toArray();
-            console.log('test');
             const totalCount = yield mongo_db_1.postCollection.countDocuments();
             return { items, totalCount };
         });
