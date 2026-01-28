@@ -21,7 +21,7 @@ exports.postsRepository = {
                 .find()
                 .sort({
                 [sortBy]: sortDirection === 'desc' ? -1 : 1,
-                createdAt: -1
+                createdAt: 1
             })
                 .skip(skip)
                 .limit(pageSize)
