@@ -26,6 +26,7 @@ export async function getManyPostsHandler (
                 totalCount: data.totalCount
             }
         )
+        console.log(query)
         res.status(http_response.ok).send(viewModel);
     }catch(err){
         errorHandler(err, res);

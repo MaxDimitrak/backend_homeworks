@@ -25,6 +25,7 @@ function getManyPostsHandler(req, res) {
                 pageSize: query.pageSize,
                 totalCount: data.totalCount
             });
+            console.log(query);
             res.status(http_responses_1.http_response.ok).send(viewModel);
         }
         catch (err) {

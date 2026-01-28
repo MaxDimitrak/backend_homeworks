@@ -19,7 +19,10 @@ exports.postsRepository = {
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.postCollection
                 .find()
-                .sort({ [sortBy]: sortDirection === 'desc' ? -1 : 1 })
+                .sort({
+                [sortBy]: sortDirection === 'desc' ? -1 : 1,
+                createdAt: -1
+            })
                 .skip(skip)
                 .limit(pageSize)
                 .toArray();
