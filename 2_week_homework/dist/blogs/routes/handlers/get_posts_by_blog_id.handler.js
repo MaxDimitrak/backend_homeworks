@@ -26,10 +26,6 @@ function getPostsByBlogIdHandler(req, res) {
             });
             const query = (0, set_default_pagination_and_sort_if_not_exist_helper_1.setDefaultPaginationAndSortIfNotExist)(sanitizedQuery);
             const viewModel = yield posts_service_1.postsService.getPostsByBlogId(id, query);
-            if (viewModel.items.length === 0) {
-                res.sendStatus(http_responses_1.http_response.not_found);
-                return;
-            }
             res.status(http_responses_1.http_response.ok).send((0, map_to_post_list_pagindted_util_1.mapToPostListPaginatedUtil)(viewModel.items, {
                 pageNumber: query.pageNumber,
                 pageSize: query.pageSize,

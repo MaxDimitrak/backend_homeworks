@@ -25,6 +25,10 @@ export async function getPostsByBlogIdHandler(
             items: WithId<PostDBType>[],
             totalCount: number
         } = await postsService.getPostsByBlogId(id, query);
+        if (viewModel.items.length === 0) {
+            res.sendStatus(http_response.not_found)
+            return;
+        }
         res.status(http_response.ok).send(
             mapToPostListPaginatedUtil(
                 viewModel.items,
