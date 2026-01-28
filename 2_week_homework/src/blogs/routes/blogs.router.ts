@@ -10,6 +10,8 @@ import {inputValidationResult} from "../../middlewares/input_validation.result.m
 import {blogInputDtoValidation} from "./validation/blog_input_dto.validation.middleware";
 import {paginationAnaSortingValidation} from "../../middlewares/query-pagination-ana-sorting.validation-middleware";
 import {BlogSortFields} from "./input/blog-sort-fields";
+import {postForExactBlogInputDtoValidation} from "./validation/post_for_exact_blog_input_dto.validation.middleware";
+import {createPostForExactBlogHandler} from "./handlers/create_post_for_exact_blog.handler";
 
 
 export const blogsRouter: Router = Router({})
@@ -32,6 +34,13 @@ blogsRouter.get('/:id/posts',
     inputValidationResult
 );
 
+blogsRouter.post('/:blogId/posts',
+    isAuthorized,
+    idValidation,
+    postForExactBlogInputDtoValidation,
+    inputValidationResult,
+    createPostForExactBlogHandler,
+    )
 blogsRouter.post('/',
     isAuthorized,
     blogInputDtoValidation,

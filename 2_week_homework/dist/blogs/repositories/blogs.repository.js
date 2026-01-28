@@ -43,6 +43,17 @@ exports.blogsRepository = {
             return Object.assign(Object.assign({}, newBlog), { _id: insertedBlog.insertedId });
         });
     },
+    createPostForExactBlog(blogId, dto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const blog = yield mongo_db_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(blogId) });
+            if (!blog) {
+                return null;
+            }
+            const newPost = Object.assign(Object.assign({}, dto), { createdAt: new Date(), blogId: blogId, blogName: blog.name });
+            const createdPost = yield mongo_db_1.postCollection.insertOne(newPost);
+            return Object.assign({ _id: createdPost.insertedId }, newPost);
+        });
+    },
     updateBlogById(id, updateBlogInput) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield mongo_db_1.blogCollection.findOneAndUpdate({ _id: new mongodb_1.ObjectId(id) }, {

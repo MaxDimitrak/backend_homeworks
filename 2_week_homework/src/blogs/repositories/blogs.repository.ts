@@ -1,9 +1,11 @@
-import {blogCollection} from "../../db/mongo.db";
+import {blogCollection, postCollection} from "../../db/mongo.db";
 import {DeleteResult, InsertOneResult, ObjectId, WithId} from "mongodb";
 import {BlogDBType} from "../domain/blog";
 import {BlogQueryDto, FilterFields} from "../routes/input/blog-query-dto.input";
 import {BlogCreateDtoInput} from "../routes/input/blog-create-dto.input";
 import {BlogUpdateDtoInput} from "../routes/input/blog-update-dto.input";
+import {PostDBType} from "../../posts/domain/post";
+import {CreatePostForExactBlogInput} from "../routes/input/create-post-for-exact-blog.dto.input";
 
 
 export const blogsRepository = {
@@ -40,6 +42,21 @@ export const blogsRepository = {
         };
         const insertedBlog: InsertOneResult = await blogCollection.insertOne(newBlog)
         return {...newBlog, _id: insertedBlog.insertedId};
+    },
+    async createPostForExactBlog(blogId: string, dto: CreatePostForExactBlogInput): Promise<WithId<PostDBType> | null> {
+        const blog: WithId<BlogDBType> | null = await blogCollection.findOne({_id: new ObjectId(blogId)});
+        if (!blog) {
+            return null;
+        }
+        const newPost = {
+            ...dto,
+            createdAt: new Date(),
+            blogId: blogId,
+            blogName: blog.name
+        }
+        const createdPost = await postCollection.insertOne(newPost);
+        return {_id: createdPost.insertedId, ...newPost};
+
     },
     async updateBlogById(id: string, updateBlogInput: BlogUpdateDtoInput): Promise<WithId<BlogDBType> | null> {
         return await blogCollection.findOneAndUpdate(

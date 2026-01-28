@@ -18,15 +18,8 @@ const content: ValidationChain = body('content')
     .trim()
     .isLength({min: 1, max: 1000}).withMessage(`content length must be between 1 and 1000 characters`)
 
-const blogId: ValidationChain = body('blogId')
-    .exists().withMessage('blogId is required')
-    .isString().withMessage('blogId must be a string')
-    .trim()
-    .isLength({min: 1}).withMessage(`blogId length mustn't be empty`)
-
-export const postInputDtoValidation: ValidationChain[] = [
+export const postForExactBlogInputDtoValidation: ValidationChain[] = [
     title,
     shortDescription,
     content,
-    blogId,
 ]

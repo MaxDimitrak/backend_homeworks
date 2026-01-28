@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postInputDtoValidation = void 0;
+exports.postForExactBlogInputDtoValidation = void 0;
 const express_validator_1 = require("express-validator");
 const title = (0, express_validator_1.body)('title')
     .exists().withMessage('title is required')
@@ -17,14 +17,8 @@ const content = (0, express_validator_1.body)('content')
     .isString().withMessage('content must be a string')
     .trim()
     .isLength({ min: 1, max: 1000 }).withMessage(`content length must be between 1 and 1000 characters`);
-const blogId = (0, express_validator_1.body)('blogId')
-    .exists().withMessage('blogId is required')
-    .isString().withMessage('blogId must be a string')
-    .trim()
-    .isLength({ min: 1 }).withMessage(`blogId length mustn't be empty`);
-exports.postInputDtoValidation = [
+exports.postForExactBlogInputDtoValidation = [
     title,
     shortDescription,
     content,
-    blogId,
 ];
