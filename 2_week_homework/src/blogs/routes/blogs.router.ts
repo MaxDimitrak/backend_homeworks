@@ -15,12 +15,14 @@ import {createPostForExactBlogHandler} from "../../posts/routes/handlers/create_
 import {blogIdValidation} from "./validation/blog-id.validation.middleware";
 import {getPostsByBlogIdHandler} from "../../posts/routes/handlers/get_posts_by_blog_id.handler";
 import {PostSortFields} from "../../posts/routes/input/post-sort-fields";
+import {querySearchNameTermValidationMiddleware} from "../../middlewares/query-search-name-term.validation.middleware";
 
 
 export const blogsRouter: Router = Router({})
 
 blogsRouter.get('/',
     paginationAnaSortingValidation(BlogSortFields),
+    querySearchNameTermValidationMiddleware,
     inputValidationResult,
     getManyBlogsHandler
 );

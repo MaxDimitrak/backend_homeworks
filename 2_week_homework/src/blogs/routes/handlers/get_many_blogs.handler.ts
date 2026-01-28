@@ -24,6 +24,7 @@ export const getManyBlogsHandler = async (
         })
 
         const query: BlogQueryDto = setDefaultPaginationAndSortIfNotExist(sanitizedQuery);
+        query.searchNameTerm = sanitizedQuery.searchNameTerm
         const data: { items: WithId<BlogDBType>[], totalCount: number } = await blogsService.getManyBlogs(query);
         const viewModel: BlogDataPaginatedOutput = mapToBlogListPaginatedUtil(
             data.items, {

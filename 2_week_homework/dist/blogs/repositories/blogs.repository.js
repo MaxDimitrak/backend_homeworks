@@ -20,6 +20,7 @@ exports.blogsRepository = {
             if (searchNameTerm) {
                 filter.name = { $regex: searchNameTerm, $options: 'i' };
             }
+            console.log(filter);
             const totalCount = yield mongo_db_1.blogCollection.countDocuments(filter);
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.blogCollection

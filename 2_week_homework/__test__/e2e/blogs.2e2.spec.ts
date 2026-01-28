@@ -33,7 +33,7 @@ describe('testing blogs page',  (): void => {
     })
 
     it('return all blogs', async (): Promise<void> => {
-        request(app).get('/blogs')
+        const get = await request(app).get('/blogs').expect(http_response.ok)
     })
     it(`Should create a blog`, async (): Promise<void> => {
         const postResponse = await request(app)

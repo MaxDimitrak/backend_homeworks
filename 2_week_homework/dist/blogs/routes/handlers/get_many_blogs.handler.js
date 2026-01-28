@@ -23,6 +23,7 @@ const getManyBlogsHandler = (req, res) => __awaiter(void 0, void 0, void 0, func
             includeOptionals: true,
         });
         const query = (0, set_default_pagination_and_sort_if_not_exist_helper_1.setDefaultPaginationAndSortIfNotExist)(sanitizedQuery);
+        query.searchNameTerm = sanitizedQuery.searchNameTerm;
         const data = yield blogs_servise_1.blogsService.getManyBlogs(query);
         const viewModel = (0, map_to_blog_list_paginated_util_1.mapToBlogListPaginatedUtil)(data.items, {
             pageNumber: query.pageNumber,

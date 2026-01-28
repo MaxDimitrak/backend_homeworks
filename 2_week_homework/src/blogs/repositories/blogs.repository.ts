@@ -21,6 +21,7 @@ export const blogsRepository = {
         if (searchNameTerm) {
             filter.name = {$regex: searchNameTerm, $options: 'i'};
         }
+        console.log(filter)
         const totalCount: number = await blogCollection.countDocuments(filter)
         const skip: number = (pageNumber - 1) * pageSize;
         const items: WithId<BlogDBType>[] = await blogCollection

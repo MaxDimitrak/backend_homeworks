@@ -24,7 +24,7 @@ describe('testing posts page', () => {
     })
 
     it('should get all posts', async () => {
-        await request(app).get('/posts?pageSize=3').expect(http_response.ok)
+        const getResponse = await request(app).get('/posts?pageSize=3').expect(http_response.ok)
     })
 
     it('should create a post and then return it', async () => {

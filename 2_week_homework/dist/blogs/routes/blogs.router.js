@@ -18,8 +18,9 @@ const create_post_for_exact_blog_handler_1 = require("../../posts/routes/handler
 const blog_id_validation_middleware_1 = require("./validation/blog-id.validation.middleware");
 const get_posts_by_blog_id_handler_1 = require("../../posts/routes/handlers/get_posts_by_blog_id.handler");
 const post_sort_fields_1 = require("../../posts/routes/input/post-sort-fields");
+const query_search_name_term_validation_middleware_1 = require("../../middlewares/query-search-name-term.validation.middleware");
 exports.blogsRouter = (0, express_1.Router)({});
-exports.blogsRouter.get('/', (0, query_pagination_ana_sorting_validation_middleware_1.paginationAnaSortingValidation)(blog_sort_fields_1.BlogSortFields), input_validation_result_middleware_1.inputValidationResult, get_many_blogs_handler_1.getManyBlogsHandler);
+exports.blogsRouter.get('/', (0, query_pagination_ana_sorting_validation_middleware_1.paginationAnaSortingValidation)(blog_sort_fields_1.BlogSortFields), query_search_name_term_validation_middleware_1.querySearchNameTermValidationMiddleware, input_validation_result_middleware_1.inputValidationResult, get_many_blogs_handler_1.getManyBlogsHandler);
 exports.blogsRouter.get('/:id', params_id_validation_middleware_1.idValidation, input_validation_result_middleware_1.inputValidationResult, get_blog_by_id_handler_1.getBlogByIdHandler);
 exports.blogsRouter.get('/:blogId/posts', blog_id_validation_middleware_1.blogIdValidation, (0, query_pagination_ana_sorting_validation_middleware_1.paginationAnaSortingValidation)(post_sort_fields_1.PostSortFields), input_validation_result_middleware_1.inputValidationResult, get_posts_by_blog_id_handler_1.getPostsByBlogIdHandler);
 exports.blogsRouter.post('/:blogId/posts', auth_middleware_1.isAuthorized, blog_id_validation_middleware_1.blogIdValidation, post_for_exact_blog_input_dto_validation_middleware_1.postForExactBlogInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, create_post_for_exact_blog_handler_1.createPostForExactBlogHandler);
