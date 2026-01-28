@@ -21,7 +21,6 @@ export const postsRepository = {
             .find()
             .sort({
                 [sortBy]: sortDirection === 'desc' ? -1: 1,
-                createdAt: -1
             })
             .skip(skip)
             .limit(pageSize)
@@ -57,7 +56,7 @@ export const postsRepository = {
     async createPost(createPostInput: PostCreateDtoInput): Promise<WithId<PostDBType>> {
         const newPost: PostDBType = {
             ...createPostInput,
-            blogName: 'asterix',
+            blogName: `Blog${Math.random().toString(36).slice(2)}Name`,
             createdAt: new Date(),
         }
         const insertedPost: InsertOneResult = await postCollection.insertOne(newPost);

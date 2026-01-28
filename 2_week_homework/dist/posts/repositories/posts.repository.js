@@ -21,7 +21,6 @@ exports.postsRepository = {
                 .find()
                 .sort({
                 [sortBy]: sortDirection === 'desc' ? -1 : 1,
-                createdAt: -1
             })
                 .skip(skip)
                 .limit(pageSize)
@@ -51,7 +50,7 @@ exports.postsRepository = {
     },
     createPost(createPostInput) {
         return __awaiter(this, void 0, void 0, function* () {
-            const newPost = Object.assign(Object.assign({}, createPostInput), { blogName: 'asterix', createdAt: new Date() });
+            const newPost = Object.assign(Object.assign({}, createPostInput), { blogName: `Blog${Math.random().toString(36).slice(2)}Name`, createdAt: new Date() });
             const insertedPost = yield mongo_db_1.postCollection.insertOne(newPost);
             return Object.assign(Object.assign({}, newPost), { _id: insertedPost.insertedId });
         });
