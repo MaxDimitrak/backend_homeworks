@@ -12,6 +12,7 @@ import {paginationAnaSortingValidation} from "../../middlewares/query-pagination
 import {BlogSortFields} from "./input/blog-sort-fields";
 import {postForExactBlogInputDtoValidation} from "./validation/post_for_exact_blog_input_dto.validation.middleware";
 import {createPostForExactBlogHandler} from "./handlers/create_post_for_exact_blog.handler";
+import {blogIdValidation} from "./validation/blog-id.validation.middleware";
 
 
 export const blogsRouter: Router = Router({})
@@ -36,7 +37,7 @@ blogsRouter.get('/:id/posts',
 
 blogsRouter.post('/:blogId/posts',
     isAuthorized,
-    idValidation,
+    blogIdValidation,
     postForExactBlogInputDtoValidation,
     inputValidationResult,
     createPostForExactBlogHandler,
