@@ -33,7 +33,6 @@ blogsRouter.get('/:id',
 
 blogsRouter.get('/:blogId/posts',
     blogIdValidation,
-    paginationAnaSortingValidation(PostSortFields),
     inputValidationResult,
     getPostsByBlogIdHandler
 );
