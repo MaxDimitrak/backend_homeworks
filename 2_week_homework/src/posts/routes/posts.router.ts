@@ -13,9 +13,8 @@ import {idValidation} from "../../middlewares/params_id.validation.middleware";
 
 
 export const postsRouter: Router = express.Router({});
-
 postsRouter.get('/',
-    paginationAnaSortingValidation<PostSortFields>,
+    paginationAnaSortingValidation(PostSortFields),
     inputValidationResult,
     getManyPostsHandler
 );

@@ -21,7 +21,7 @@ export const postsRepository = {
             .sort({[sortBy]: sortDirection})
             .skip(skip)
             .toArray();
-
+        console.log('test')
         const totalCount: number = await postCollection.countDocuments();
         return {items, totalCount};
     },

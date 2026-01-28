@@ -22,6 +22,7 @@ exports.postsRepository = {
                 .sort({ [sortBy]: sortDirection })
                 .skip(skip)
                 .toArray();
+            console.log('test');
             const totalCount = yield mongo_db_1.postCollection.countDocuments();
             return { items, totalCount };
         });

@@ -15,13 +15,14 @@ export const paginationAndSortingByDefault = {
 
 export function paginationAnaSortingValidation<T extends string>(sortFieldEnum: Record<string, T>): ValidationChain[] {
     const allowedSortFields: T[] = Object.values(sortFieldEnum);
+    console.log(allowedSortFields);
     return [
         query('pageNumber')
             .default(DEFAULT_PAGE_NUMBER)
             .toInt()
             .isInt({min: 1})
             .withMessage('pageNumber must be a positive integer')
-,
+        ,
 
         query('pageSize')
             .default(DEFAULT_PAGE_SIZE)
@@ -32,7 +33,7 @@ export function paginationAnaSortingValidation<T extends string>(sortFieldEnum: 
         query('sortBy')
             .default(Object.values(sortFieldEnum)[0])
             .isIn(allowedSortFields)
-            .withMessage(`Invalid sort field. Allowed values are ${allowedSortFields.join(', ')}`),
+            .withMessage(`Invalid sort field. Allowed values are ${allowedSortFields.join(',')}`),
 
         query('sortDirection')
             .default(DEFAULT_SORT_DIRECTION)

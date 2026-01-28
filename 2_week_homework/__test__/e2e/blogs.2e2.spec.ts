@@ -31,6 +31,10 @@ describe('testing blogs page',  (): void => {
         await runDB();
         await request(app).delete('/testing/all-data').expect(http_response.no_content)
     })
+
+    it('return all blogs', async (): Promise<void> => {
+        request(app).get('/blogs')
+    })
     it(`Should create a blog`, async (): Promise<void> => {
         const postResponse = await request(app)
             .post('/blogs')

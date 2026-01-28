@@ -14,9 +14,10 @@ const delete_post_by_id_handler_1 = require("./handlers/delete_post_by_id.handle
 const post_input_dto_validation_middleware_1 = require("./validation/post_input_dto.validation.middleware");
 const input_validation_result_middleware_1 = require("../../middlewares/input_validation.result.middleware");
 const query_pagination_ana_sorting_validation_middleware_1 = require("../../middlewares/query-pagination-ana-sorting.validation-middleware");
+const post_sort_fields_1 = require("./input/post-sort-fields");
 const params_id_validation_middleware_1 = require("../../middlewares/params_id.validation.middleware");
 exports.postsRouter = express_1.default.Router({});
-exports.postsRouter.get('/', (query_pagination_ana_sorting_validation_middleware_1.paginationAnaSortingValidation), input_validation_result_middleware_1.inputValidationResult, get_many_posts_handler_1.getManyPostsHandler);
+exports.postsRouter.get('/', (0, query_pagination_ana_sorting_validation_middleware_1.paginationAnaSortingValidation)(post_sort_fields_1.PostSortFields), input_validation_result_middleware_1.inputValidationResult, get_many_posts_handler_1.getManyPostsHandler);
 exports.postsRouter.get('/:id', params_id_validation_middleware_1.idValidation, input_validation_result_middleware_1.inputValidationResult, get_post_by_id_handler_1.getPostByIdHandler);
 exports.postsRouter.post('/', auth_middleware_1.isAuthorized, post_input_dto_validation_middleware_1.postInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, create_post_handler_1.createPostHandler);
 exports.postsRouter.put('/:id', auth_middleware_1.isAuthorized, params_id_validation_middleware_1.idValidation, post_input_dto_validation_middleware_1.postInputDtoValidation, input_validation_result_middleware_1.inputValidationResult, update_post_by_id_handler_1.updatePostByIdHandler);

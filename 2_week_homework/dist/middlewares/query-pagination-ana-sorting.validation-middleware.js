@@ -16,6 +16,7 @@ exports.paginationAndSortingByDefault = {
 };
 function paginationAnaSortingValidation(sortFieldEnum) {
     const allowedSortFields = Object.values(sortFieldEnum);
+    console.log(allowedSortFields);
     return [
         (0, express_validator_1.query)('pageNumber')
             .default(DEFAULT_PAGE_NUMBER)
@@ -30,7 +31,7 @@ function paginationAnaSortingValidation(sortFieldEnum) {
         (0, express_validator_1.query)('sortBy')
             .default(Object.values(sortFieldEnum)[0])
             .isIn(allowedSortFields)
-            .withMessage(`Invalid sort field. Allowed values are ${allowedSortFields.join(', ')}`),
+            .withMessage(`Invalid sort field. Allowed values are ${allowedSortFields.join(',')}`),
         (0, express_validator_1.query)('sortDirection')
             .default(DEFAULT_SORT_DIRECTION)
             .isIn(Object.values(sort_direction_1.SortDirection))
