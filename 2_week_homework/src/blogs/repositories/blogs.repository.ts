@@ -21,11 +21,11 @@ export const blogsRepository = {
         if (searchNameTerm) {
             filter.name = {$regex: searchNameTerm, $options: 'i'};
         }
-        const totalCount: number = await blogCollection.countDocuments()
+        const totalCount: number = await blogCollection.countDocuments(filter)
         const skip: number = (pageNumber - 1) * pageSize;
         const items: WithId<BlogDBType>[] = await blogCollection
             .find(filter)
-            .sort({[sortBy]: sortDirection})
+            .sort({[sortBy]: sortDirection === 'desc' ? -1: 1})
             .skip(skip)
             .limit(pageSize)
             .toArray()

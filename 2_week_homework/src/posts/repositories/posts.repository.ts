@@ -18,8 +18,9 @@ export const postsRepository = {
         const skip: number = (pageNumber - 1) * pageSize;
         const items: WithId<PostDBType>[] = await postCollection
             .find()
-            .sort({[sortBy]: sortDirection})
+            .sort({[sortBy]: sortDirection === 'desc' ? -1: 1})
             .skip(skip)
+            .limit(pageSize)
             .toArray();
         console.log('test')
         const totalCount: number = await postCollection.countDocuments();
@@ -41,11 +42,12 @@ export const postsRepository = {
         }: PostQueryDtoInput = query;
 
         const skip: number = (pageNumber - 1) * pageSize;
-        const totalCount: number = await postCollection.countDocuments();
+        const totalCount: number = await postCollection.countDocuments({blogId: blogId});
         const items: WithId<PostDBType>[] = await postCollection
             .find({blogId: blogId})
-            .sort({[sortBy]: sortDirection})
+            .sort({[sortBy]: sortDirection === 'desc' ? -1: 1})
             .skip(skip)
+            .limit(pageSize)
             .toArray();
         return {items, totalCount};
     },

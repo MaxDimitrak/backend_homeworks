@@ -20,11 +20,11 @@ exports.blogsRepository = {
             if (searchNameTerm) {
                 filter.name = { $regex: searchNameTerm, $options: 'i' };
             }
-            const totalCount = yield mongo_db_1.blogCollection.countDocuments();
+            const totalCount = yield mongo_db_1.blogCollection.countDocuments(filter);
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.blogCollection
                 .find(filter)
-                .sort({ [sortBy]: sortDirection })
+                .sort({ [sortBy]: sortDirection === 'desc' ? -1 : 1 })
                 .skip(skip)
                 .limit(pageSize)
                 .toArray();

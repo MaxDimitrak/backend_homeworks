@@ -19,8 +19,9 @@ exports.postsRepository = {
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.postCollection
                 .find()
-                .sort({ [sortBy]: sortDirection })
+                .sort({ [sortBy]: sortDirection === 'desc' ? -1 : 1 })
                 .skip(skip)
+                .limit(pageSize)
                 .toArray();
             console.log('test');
             const totalCount = yield mongo_db_1.postCollection.countDocuments();
@@ -36,11 +37,12 @@ exports.postsRepository = {
         return __awaiter(this, void 0, void 0, function* () {
             const { pageNumber, pageSize, sortBy, sortDirection, } = query;
             const skip = (pageNumber - 1) * pageSize;
-            const totalCount = yield mongo_db_1.postCollection.countDocuments();
+            const totalCount = yield mongo_db_1.postCollection.countDocuments({ blogId: blogId });
             const items = yield mongo_db_1.postCollection
                 .find({ blogId: blogId })
-                .sort({ [sortBy]: sortDirection })
+                .sort({ [sortBy]: sortDirection === 'desc' ? -1 : 1 })
                 .skip(skip)
+                .limit(pageSize)
                 .toArray();
             return { items, totalCount };
         });
