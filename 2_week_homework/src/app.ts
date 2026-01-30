@@ -1,9 +1,9 @@
 import express, {Express} from 'express'
 import {http_response} from "./core/types/http_responses";
-import {blogsRouter} from "./blogs/routes/blogs.router";
+import {blogsRouter} from "./features/blogs/routes/blogs.router";
 import {BLOGS_PATH, POSTS_PATH, TESTING_PATH} from "./core/paths/paths";
-import {testingRouter} from "./testing/testing.router";
-import {postsRouter} from "./posts/routes/posts.router";
+import {testingRouter} from "./core/testing/testing.router";
+import {postsRouter} from "./features/posts/routes/posts.router";
 
 export const createApp = () => {
     const app: Express = express();

@@ -3,7 +3,7 @@ import {createApp} from "../../src/app";
 import request from "supertest";
 import {http_response} from "../../src/core/types/http_responses";
 import {runDB} from "../../src/db/mongo.db";
-import {PostCreateDtoInput} from "../../src/posts/routes/input/post-create.dto-input";
+import {PostCreateDtoInput} from "../../src/features/posts/routes/input/post-create.dto-input";
 
 
 describe('testing posts page', () => {

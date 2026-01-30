@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createApp = void 0;
 const express_1 = __importDefault(require("express"));
 const http_responses_1 = require("./core/types/http_responses");
-const blogs_router_1 = require("./blogs/routes/blogs.router");
+const blogs_router_1 = require("./features/blogs/routes/blogs.router");
 const paths_1 = require("./core/paths/paths");
-const testing_router_1 = require("./testing/testing.router");
-const posts_router_1 = require("./posts/routes/posts.router");
+const testing_router_1 = require("./core/testing/testing.router");
+const posts_router_1 = require("./features/posts/routes/posts.router");
 const createApp = () => {
     const app = (0, express_1.default)();
     app.use(express_1.default.json());

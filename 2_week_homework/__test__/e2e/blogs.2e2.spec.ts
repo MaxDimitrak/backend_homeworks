@@ -3,7 +3,7 @@ import {createApp} from "../../src/app";
 import {Express} from "express";
 import {http_response} from "../../src/core/types/http_responses";
 import {runDB} from "../../src/db/mongo.db";
-import {BlogCreateDtoInput} from "../../src/blogs/routes/input/blog-create-dto.input";
+import {BlogCreateDtoInput} from "../../src/features/blogs/routes/input/blog-create-dto.input";
 
 
 describe('testing blogs page',  (): void => {

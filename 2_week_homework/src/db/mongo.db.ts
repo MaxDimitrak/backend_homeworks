@@ -1,8 +1,8 @@
 import {Collection, Db, MongoClient} from "mongodb";
 import * as dotenv from "dotenv";
 import {DATABASE_NAME} from "../core/settings/settings";
-import {BlogDBType} from "../blogs/domain/blog";
-import {PostDBType} from "../posts/domain/post";
+import {BlogDBType} from "../features/blogs/domain/blog";
+import {PostDBType} from "../features/posts/domain/post";
 
 
 dotenv.config();
