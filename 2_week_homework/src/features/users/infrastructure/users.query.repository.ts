@@ -26,7 +26,7 @@ export const usersQueryRepository = {
             searchConditions.push({login: {$regex: searchLoginTerm, $options: 'i'}});
         }
         if (searchEmailTerm) {
-            searchConditions.push({login: {$regex: searchEmailTerm, $options: 'i'}});
+            searchConditions.push({email: {$regex: searchEmailTerm, $options: 'i'}});
         }
         let filter: Filter<UserDBType> = {};
         if (searchConditions.length === 1) {

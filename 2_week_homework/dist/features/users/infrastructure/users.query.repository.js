@@ -21,7 +21,7 @@ exports.usersQueryRepository = {
                 searchConditions.push({ login: { $regex: searchLoginTerm, $options: 'i' } });
             }
             if (searchEmailTerm) {
-                searchConditions.push({ login: { $regex: searchEmailTerm, $options: 'i' } });
+                searchConditions.push({ email: { $regex: searchEmailTerm, $options: 'i' } });
             }
             let filter = {};
             if (searchConditions.length === 1) {
