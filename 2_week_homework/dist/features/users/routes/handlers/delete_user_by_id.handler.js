@@ -20,6 +20,7 @@ function deleteUserHandler(req, res) {
             const deletedUser = yield users_repository_1.usersRepository.deleteUserById(id);
             if (!deletedUser) {
                 res.sendStatus(http_responses_1.http_response.not_found);
+                return;
             }
             res.sendStatus(http_responses_1.http_response.no_content);
         }

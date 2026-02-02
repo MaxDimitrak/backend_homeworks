@@ -11,6 +11,7 @@ export async function deleteUserHandler(
         const deletedUser: boolean = await usersRepository.deleteUserById(id);
         if (!deletedUser) {
             res.sendStatus(http_response.not_found)
+            return;
         }
         res.sendStatus(http_response.no_content)
     } catch (err) {
