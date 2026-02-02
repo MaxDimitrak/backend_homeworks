@@ -1,12 +1,12 @@
 import {blogCollection} from "../../../db/mongo.db";
 import {DeleteResult, InsertOneResult, ObjectId, UpdateResult} from "mongodb";
 import {BlogDBType} from "../domain/blog";
-import {BlogCreateDtoInput} from "../routes/input/blog-create-dto.input";
-import {BlogUpdateDtoInput} from "../routes/input/blog-update-dto.input";
+import {Blog_create_dtoInput} from "../routes/input/blog_create_dto.input";
+import {Blog_update_dtoInput} from "../routes/input/blog_update_dto.input";
 
 
 export const blogsRepository = {
-    async createBlog(createBlogInput: BlogCreateDtoInput): Promise<string> {
+    async createBlog(createBlogInput: Blog_create_dtoInput): Promise<string> {
         const newBlog: BlogDBType = {
             ...createBlogInput,
             createdAt: new Date(),
@@ -16,7 +16,7 @@ export const blogsRepository = {
         return insertedBlogId.insertedId.toString();
     },
 
-    async updateBlogById(id: string, updateBlogInput: BlogUpdateDtoInput): Promise<boolean> {
+    async updateBlogById(id: string, updateBlogInput: Blog_update_dtoInput): Promise<boolean> {
         const updatedBlog: UpdateResult<BlogDBType> = await blogCollection.updateOne(
             {_id: new ObjectId(id)},
             {

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getManyBlogsHandler = getManyBlogsHandler;
 const http_responses_1 = require("../../../../core/types/http_responses");
 const blogs_servise_1 = require("../../application/blogs.servise");
-const set_default_pagination_and_sort_if_not_exist_helper_1 = require("../../../../core/helpers/set-default-pagination-and-sort-if-not-exist.helper");
+const set_default_pagination_and_sort_if_not_exist_helper_1 = require("../../../../core/helpers/set_default_pagination_and_sort_if_not_exist.helper");
 const express_validator_1 = require("express-validator");
 const errors_handler_1 = require("../../../../core/errors/errors.handler");
 function getManyBlogsHandler(req, res) {

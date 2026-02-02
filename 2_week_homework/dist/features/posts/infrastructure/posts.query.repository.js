@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsQueryRepository = void 0;
 const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../../db/mongo.db");
-const map_to_post_list_pagindted_util_1 = require("../routes/mappers/map-to-post-list-pagindted.util");
-const map_to_post_util_1 = require("../routes/mappers/map-to-post.util");
+const map_to_post_paginated_list_util_1 = require("../routes/mappers/map_to_post_paginated_list.util");
+const map_to_post_util_1 = require("../routes/mappers/map_to_post.util");
 exports.postsQueryRepository = {
     getManyPosts(query) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -26,7 +26,7 @@ exports.postsQueryRepository = {
                 .limit(pageSize)
                 .toArray();
             const totalCount = yield mongo_db_1.postCollection.countDocuments();
-            return (0, map_to_post_list_pagindted_util_1.mapToPostListPaginatedUtil)(items, { pageNumber, pageSize, totalCount });
+            return (0, map_to_post_paginated_list_util_1.mapToPostPaginatedListUtil)(items, { pageNumber, pageSize, totalCount });
         });
     },
     getPostById(id) {
@@ -35,7 +35,7 @@ exports.postsQueryRepository = {
             if (!foundedPost) {
                 return null;
             }
-            return (0, map_to_post_util_1.mapToPost)(foundedPost);
+            return (0, map_to_post_util_1.mapToPostUtil)(foundedPost);
         });
     },
     getPostsByBlogId(blogId, query) {
@@ -49,7 +49,7 @@ exports.postsQueryRepository = {
                 .skip(skip)
                 .limit(pageSize)
                 .toArray();
-            return (0, map_to_post_list_pagindted_util_1.mapToPostListPaginatedUtil)(items, { pageNumber, pageSize, totalCount });
+            return (0, map_to_post_paginated_list_util_1.mapToPostPaginatedListUtil)(items, { pageNumber, pageSize, totalCount });
         });
     },
 };

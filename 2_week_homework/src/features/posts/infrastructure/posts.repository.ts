@@ -1,13 +1,13 @@
 import {blogCollection, postCollection} from "../../../db/mongo.db";
 import {DeleteResult, InsertOneResult, ObjectId, UpdateResult, WithId} from "mongodb";
 import {PostDBType} from "../domain/post";
-import {PostCreateDtoInput} from "../routes/input/post-create.dto-input";
+import {Post_create_dtoInput} from "../routes/input/post_create_dto.input";
 import {BlogDBType} from "../../blogs/domain/blog";
-import {CreatePostForExactBlogInput} from "../../blogs/routes/input/create-post-for-exact-blog.dto.input";
+import {CreatePostForExactBlogInput} from "../../blogs/routes/input/post_create_for_exact_blog.dto.input";
 
 
 export const postsRepository = {
-    async createPost(createPostInput: PostCreateDtoInput): Promise<string> {
+    async createPost(createPostInput: Post_create_dtoInput): Promise<string> {
         const newPost: PostDBType = {
             ...createPostInput,
             blogName: `Blog${Math.random().toString(36).slice(2)}Name`,
@@ -31,7 +31,7 @@ export const postsRepository = {
         return createdPostId.insertedId.toString();
 
     },
-    async updatePostById(id: string, updatePostInput: PostCreateDtoInput): Promise<boolean> {
+    async updatePostById(id: string, updatePostInput: Post_create_dtoInput): Promise<boolean> {
         const updatedPost: UpdateResult<PostDBType> = await postCollection.updateOne(
             {_id: new ObjectId(id)},
             {

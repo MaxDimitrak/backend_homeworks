@@ -3,11 +3,13 @@ import * as dotenv from "dotenv";
 import {DATABASE_NAME} from "../core/settings/settings";
 import {BlogDBType} from "../features/blogs/domain/blog";
 import {PostDBType} from "../features/posts/domain/post";
+import {UserDBType} from "../features/users/domain/user";
 
 
 dotenv.config();
 const BLOG_COLLECTION_NAME = "blogs";
 const POST_COLLECTION_NAME = "posts";
+const USER_COLLECTION_NAME = "users";
 
 const mongoURL: string | undefined = process.env.MONGODB_URL;
 if (!mongoURL) {
@@ -17,6 +19,7 @@ export const client = new MongoClient(mongoURL);
 const db: Db = client.db(DATABASE_NAME);
 export let blogCollection: Collection<BlogDBType> = db.collection(BLOG_COLLECTION_NAME);
 export let postCollection: Collection<PostDBType> = db.collection(POST_COLLECTION_NAME);
+export let userCollection: Collection<UserDBType> = db.collection(USER_COLLECTION_NAME);
 
 export async function runDB() {
     try {

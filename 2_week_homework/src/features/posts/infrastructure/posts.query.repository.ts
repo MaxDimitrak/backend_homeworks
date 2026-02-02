@@ -1,16 +1,16 @@
 import {ObjectId, WithId} from "mongodb";
 import {PostDBType} from "../domain/post";
 import {postCollection} from "../../../db/mongo.db";
-import {PostQueryDtoInput} from "../routes/input/post-query-dto.input";
-import {PostDataPaginatedOutput} from "../routes/output/post-data-paginated.output";
-import {mapToPostListPaginatedUtil} from "../routes/mappers/map-to-post-list-pagindted.util";
-import {PostDataOutput} from "../routes/output/post-data-output";
-import {mapToPost} from "../routes/mappers/map-to-post.util";
+import {PostQueryDtoInput} from "../routes/input/post_query_dto.input";
+import {PostPaginatedDataOutput} from "../routes/output/post_paginated_data.output";
+import {mapToPostPaginatedListUtil} from "../routes/mappers/map_to_post_paginated_list.util";
+import {PostDataOutput} from "../routes/output/post_data.output";
+import {mapToPostUtil} from "../routes/mappers/map_to_post.util";
 
 export const postsQueryRepository = {
     async getManyPosts(
         query: PostQueryDtoInput,
-    ): Promise<PostDataPaginatedOutput> {
+    ): Promise<PostPaginatedDataOutput> {
         const {
             pageNumber,
             pageSize,
@@ -25,20 +25,20 @@ export const postsQueryRepository = {
             .limit(pageSize)
             .toArray();
         const totalCount: number = await postCollection.countDocuments();
-        return mapToPostListPaginatedUtil(items, {pageNumber, pageSize, totalCount});
+        return mapToPostPaginatedListUtil(items, {pageNumber, pageSize, totalCount});
     },
     async getPostById(id: string): Promise<PostDataOutput | null> {
         const foundedPost: WithId<PostDBType> | null = await postCollection.findOne({_id: new ObjectId(id)});
         if (!foundedPost) {
             return null;
         }
-        return mapToPost(foundedPost);
+        return mapToPostUtil(foundedPost);
     },
 
     async getPostsByBlogId(
         blogId: string,
         query: PostQueryDtoInput,
-    ): Promise<PostDataPaginatedOutput> {
+    ): Promise<PostPaginatedDataOutput> {
         const {
             pageNumber,
             pageSize,
@@ -54,6 +54,6 @@ export const postsQueryRepository = {
             .skip(skip)
             .limit(pageSize)
             .toArray();
-        return mapToPostListPaginatedUtil(items, {pageNumber, pageSize, totalCount});
+        return mapToPostPaginatedListUtil(items, {pageNumber, pageSize, totalCount});
     },
 }

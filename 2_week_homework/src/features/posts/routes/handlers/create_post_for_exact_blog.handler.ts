@@ -1,10 +1,10 @@
 import {Request, Response} from "express";
 import {errorHandler} from "../../../../core/errors/errors.handler";
 import {http_response} from "../../../../core/types/http_responses";
-import {CreatePostForExactBlogInput} from "../../../blogs/routes/input/create-post-for-exact-blog.dto.input";
+import {CreatePostForExactBlogInput} from "../../../blogs/routes/input/post_create_for_exact_blog.dto.input";
 import {postsService} from "../../application/posts.service";
 import {postsQueryRepository} from "../../infrastructure/posts.query.repository";
-import {PostDataOutput} from "../output/post-data-output";
+import {PostDataOutput} from "../output/post_data.output";
 
 export async function createPostForExactBlogHandler(
     req: Request,

@@ -3,25 +3,25 @@ import {createApp} from "../../src/app";
 import {Express} from "express";
 import {http_response} from "../../src/core/types/http_responses";
 import {runDB} from "../../src/db/mongo.db";
-import {BlogCreateDtoInput} from "../../src/features/blogs/routes/input/blog-create-dto.input";
+import {Blog_create_dtoInput} from "../../src/features/blogs/routes/input/blog_create_dto.input";
 
 
 describe('testing blogs page',  (): void => {
     const app: Express = createApp();
     const credentials: string = Buffer.from('admin:qwerty').toString('base64');
 
-    const testInputBlogData: BlogCreateDtoInput = {
+    const testInputBlogData: Blog_create_dtoInput = {
         name: 'Test',
         description: 'Description Test',
         websiteUrl: 'https://test1.pom/',
     }
-    const testUpdateBlogData: BlogCreateDtoInput = {
+    const testUpdateBlogData: Blog_create_dtoInput = {
         name: "Update Test",
         description: "Update Description",
         websiteUrl: "https://dvwBb57sDN.s4SuPpmGXpPxb8wkA1hdUFnO1Owf9i95j0r9ACNUCxtCMjDeK5RZb2t7O75crt5S7r_M-Y.99UXz0BW98"
     }
 
-    const testWrongBlogData: BlogCreateDtoInput = {
+    const testWrongBlogData: Blog_create_dtoInput = {
         name: '',
         description: 'Description Test',
         websiteUrl: 'https://test1.pom/',

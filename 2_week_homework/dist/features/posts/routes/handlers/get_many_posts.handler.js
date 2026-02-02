@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getManyPostsHandler = getManyPostsHandler;
 const http_responses_1 = require("../../../../core/types/http_responses");
-const set_default_pagination_and_sort_if_not_exist_helper_1 = require("../../../../core/helpers/set-default-pagination-and-sort-if-not-exist.helper");
+const set_default_pagination_and_sort_if_not_exist_helper_1 = require("../../../../core/helpers/set_default_pagination_and_sort_if_not_exist.helper");
 const errors_handler_1 = require("../../../../core/errors/errors.handler");
 const posts_service_1 = require("../../application/posts.service");
 function getManyPostsHandler(req, res) {

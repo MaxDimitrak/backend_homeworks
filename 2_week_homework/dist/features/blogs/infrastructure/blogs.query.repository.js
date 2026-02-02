@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsQueryRepository = void 0;
 const mongodb_1 = require("mongodb");
 const mongo_db_1 = require("../../../db/mongo.db");
-const map_to_blog_list_paginated_util_1 = require("../routes/mappers/map-to-blog-list-paginated.util");
-const map_to_blog_util_1 = require("../routes/mappers/map-to-blog.util");
+const map_to_blog_paginated_list_util_1 = require("../routes/mappers/map_to_blog_paginated_list.util");
+const map_to_blog_util_1 = require("../routes/mappers/map_to_blog.util");
 exports.blogsQueryRepository = {
     getManyBlogs(queryDto) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -26,11 +26,11 @@ exports.blogsQueryRepository = {
             const skip = (pageNumber - 1) * pageSize;
             const items = yield mongo_db_1.blogCollection
                 .find(filter)
-                .sort({ [sortBy]: sortDirection === 'desc' ? -1 : 1 })
+                .sort({ [sortBy]: sortDirection })
                 .skip(skip)
                 .limit(pageSize)
                 .toArray();
-            return (0, map_to_blog_list_paginated_util_1.mapToBlogListPaginatedUtil)(items, { pageNumber, pageSize, totalCount });
+            return (0, map_to_blog_paginated_list_util_1.mapToBlogPaginatedListUtil)(items, { pageNumber, pageSize, totalCount });
         });
     },
     getBlogById(id) {

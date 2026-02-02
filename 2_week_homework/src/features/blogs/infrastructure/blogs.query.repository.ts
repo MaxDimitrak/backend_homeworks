@@ -1,14 +1,14 @@
-import {BlogQueryDto, FilterFields} from "../routes/input/blog-query-dto.input";
+import {BlogQueryDto, FilterFields} from "../routes/input/blog_query_dto.input";
 import {ObjectId, WithId} from "mongodb";
 import {BlogDBType} from "../domain/blog";
 import {blogCollection} from "../../../db/mongo.db";
-import {BlogDataPaginatedOutput} from "../routes/output/blog-data-paginated.output";
-import {mapToBlogListPaginatedUtil} from "../routes/mappers/map-to-blog-list-paginated.util";
-import {blogMapper} from "../routes/mappers/map-to-blog.util";
-import {BlogDataOutput} from "../routes/output/blog-data-output";
+import {BlogPaginatedDataOutput} from "../routes/output/blog_paginated_data.output";
+import {mapToBlogPaginatedListUtil} from "../routes/mappers/map_to_blog_paginated_list.util";
+import {blogMapper} from "../routes/mappers/map_to_blog.util";
+import {Blog_dataOutput} from "../routes/output/blog_data.output";
 
 export const blogsQueryRepository = {
-    async getManyBlogs(queryDto: BlogQueryDto): Promise<BlogDataPaginatedOutput> {
+    async getManyBlogs(queryDto: BlogQueryDto): Promise<BlogPaginatedDataOutput> {
         const {
             searchNameTerm,
             sortBy,
@@ -24,13 +24,13 @@ export const blogsQueryRepository = {
         const skip: number = (pageNumber - 1) * pageSize;
         const items: WithId<BlogDBType>[] = await blogCollection
             .find(filter)
-            .sort({[sortBy]: sortDirection === 'desc' ? -1 : 1})
+            .sort({[sortBy]: sortDirection})
             .skip(skip)
             .limit(pageSize)
             .toArray()
-        return mapToBlogListPaginatedUtil(items, {pageNumber, pageSize, totalCount});
+        return mapToBlogPaginatedListUtil(items, {pageNumber, pageSize, totalCount});
     },
-    async getBlogById(id: string): Promise<BlogDataOutput | null> {
+    async getBlogById(id: string): Promise<Blog_dataOutput | null> {
         const foundBlog: WithId<BlogDBType> | null = await blogCollection.findOne({_id: new ObjectId(id)});
         if (!foundBlog) {
             return null;

@@ -1,13 +1,13 @@
 import {Request, Response} from "express";
 import {errorHandler} from "../../../../core/errors/errors.handler";
-import {PostQueryDtoInput} from "../input/post-query-dto.input";
+import {PostQueryDtoInput} from "../input/post_query_dto.input";
 import {matchedData} from "express-validator";
 import {
     setDefaultPaginationAndSortIfNotExist
-} from "../../../../core/helpers/set-default-pagination-and-sort-if-not-exist.helper";
+} from "../../../../core/helpers/set_default_pagination_and_sort_if_not_exist.helper";
 import {postsService} from "../../application/posts.service";
 import {http_response} from "../../../../core/types/http_responses";
-import {PostDataPaginatedOutput} from "../output/post-data-paginated.output";
+import {PostPaginatedDataOutput} from "../output/post_paginated_data.output";
 
 export async function getPostsByBlogIdHandler(
     req: Request,
@@ -19,7 +19,7 @@ export async function getPostsByBlogIdHandler(
             includeOptionals: true,
         })
         const query: PostQueryDtoInput = setDefaultPaginationAndSortIfNotExist(sanitizedQuery);
-        const viewModel: PostDataPaginatedOutput = await postsService.getPostsByBlogId(id, query);
+        const viewModel: PostPaginatedDataOutput = await postsService.getPostsByBlogId(id, query);
         if (viewModel.items.length === 0) {
             res.sendStatus(http_response.not_found)
             return;

@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.usersRouter = void 0;
+const express_1 = require("express");
+const query_pagination_and_sorting_validation_middleware_1 = require("../../../core/middlewares/query_pagination_and_sorting.validation.middleware");
+const query_search_email_and_login_terms_validation_middleware_1 = require("./validation/query_search_email_and_login_terms.validation.middleware");
+const auth_middleware_1 = require("../../../core/middlewares/auth.middleware");
+const user_input_dto_validation_middleware_1 = require("./validation/user_input_dto.validation.middleware");
+const create_user_handler_1 = require("./handlers/create_user.handler");
+const get_many_users_handler_1 = require("./handlers/get_many_users.handler");
+const params_id_validation_middleware_1 = require("../../../core/middlewares/params_id.validation.middleware");
+const delete_user_by_id_handler_1 = require("./handlers/delete_user_by_id.handler");
+const user_sort_fields_1 = require("./input/user_sort_fields");
+const input_validation_result_middleware_1 = require("../../../core/middlewares/input_validation.result.middleware");
+exports.usersRouter = (0, express_1.Router)({});
+exports.usersRouter.get('/', auth_middleware_1.isAuthorized, query_search_email_and_login_terms_validation_middleware_1.querySearchEmailAndLoginTermsValidationMiddleware, (0, query_pagination_and_sorting_validation_middleware_1.paginationAndSortingValidationMiddleware)(user_sort_fields_1.UserSortFields), input_validation_result_middleware_1.inputValidationResult, get_many_users_handler_1.getManyUsersHandler);
+exports.usersRouter.post('/', auth_middleware_1.isAuthorized, user_input_dto_validation_middleware_1.userInputDtoValidationMiddleware, input_validation_result_middleware_1.inputValidationResult, create_user_handler_1.createUserHandler);
+exports.usersRouter.delete('/:id', auth_middleware_1.isAuthorized, params_id_validation_middleware_1.idValidation, input_validation_result_middleware_1.inputValidationResult, delete_user_by_id_handler_1.deleteUserHandler);

@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {http_response} from "../../../../core/types/http_responses";
 import {errorHandler} from "../../../../core/errors/errors.handler";
 import {postsService} from "../../application/posts.service";
-import {PostDataOutput} from "../output/post-data-output";
+import {PostDataOutput} from "../output/post_data.output";
 
 export async function getPostByIdHandler(
     req: Request,
